@@ -13,14 +13,14 @@ helm upgrade hlf-kube ./hlf-kube -f samples/splunk-fabric/network.yaml -f sample
 cd ../
 helm install fabric-logger -f fabric-logger-values.yaml -f fabric-kube/samples/splunk-fabric/hostAliases.yaml ./fabric-logger
 counter=0
-while [[ $(kubectl get pods | grep hlf-cli | grep Running | wc -l) -eq 0 ]];
+while [[ $(kubectl get pods | grep ContainerCreating | wc -l) -ne 0 ]];
 do
-  echo "Waiting 10s for CLI container to come up"
+  echo "Waiting 10s for all containers to come up"
   sleep 10
   ((counter++))
-  if [[ $counter -ge 20 ]]; then
-    echo "CLI container didn't come up"
-    exit 1
+  if [[ $counter -ge 12 ]]; then
+    echo "CLI container didn't come up after 2 minutes. Keep watching 'kubectl get pods'. When all containers are created, run 'kubectl exec hlf-cli -- bash hlf-scripts/channel-setup.sh'"
+    exit 0
   fi
 done
 
