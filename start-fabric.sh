@@ -1,6 +1,6 @@
 #!/bin/bash
 set +ex
-curl -sSL http://bit.ly/2ysbOFE | bash -s -- 1.4.3
+curl -sSL http://bit.ly/2ysbOFE | bash -s -- 1.4.1
 export PATH=$PATH:$PWD/fabric-samples/bin
 
 cd fabric-kube
