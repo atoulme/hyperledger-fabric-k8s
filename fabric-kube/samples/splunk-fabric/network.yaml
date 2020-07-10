@@ -99,12 +99,12 @@ network:
 
   organizations:
     TradeFloor:
-      mspid: clearinghouseMSP
+      mspid: ClearinghouseMSP
       peers:
         - peer0.clearinghouse.example.com
 
     Acme:
-      mspid: manufacturerMSP
+      mspid: ManufacturerMSP
       peers:
         - peer0.manufacturer.example.com
 
@@ -138,11 +138,11 @@ network:
       # if defined, this will override the global chaincode.version value
       version: "1.0" 
       # chaincode will be installed to all peers in these organizations
-      orgs: [clearinghouse, manufacturer]
+      orgs: [Clearinghouse, Manufacturer]
       # at which channels are we instantiating/upgrading chaincode?
       channels:
       - name: clearinghouse
         # chaincode will be instantiated/upgraded using the first peer in the first organization
         # chaincode will be invoked on all peers in these organizations
-        orgs: [clearinghouse, manufacturer]
-        policy: OR('clearinghouseMSP.member','manufacturerMSP.member')        
+        orgs: [Clearinghouse, Manufacturer]
+        policy: OR('ClearinghouseMSP.member','ManufacturerMSP.member')

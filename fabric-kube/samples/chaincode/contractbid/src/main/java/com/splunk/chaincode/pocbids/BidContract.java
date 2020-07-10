@@ -49,7 +49,7 @@ public class BidContract implements ContractInterface {
         // Build the sender that does the HTTP request containing spans to our ingest server.
         OkHttpSender.Builder senderBuilder = OkHttpSender.newBuilder()
                 .compressionEnabled(true)
-                .endpoint(ingestUrl + "/v1/trace");
+                .endpoint(ingestUrl);
 
         OkHttpSender sender = senderBuilder.build();
 
