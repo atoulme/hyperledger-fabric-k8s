@@ -10,7 +10,7 @@ export MSYS_NO_PATHCONV=1
 export FABRIC_CFG_PATH=/hlf_config
 export CORE_PEER_TLS_ENABLED=true
 export ORDERER_CA=/hlf_config/crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/tlscacerts/cert.pem
-export CORE_PEER_MSPCONFIGPATH=/hlf_config/crypto-config/peerOrganizations/buttercup.example.com/users/Admin\@buttercup.example.com/msp
+export CORE_PEER_MSPCONFIGPATH=/hlf_config/crypto-config/peerOrganizations/clearinghouse.example.com/users/Admin\@clearinghouse.example.com/msp
 function createChannel() {
 	CHANNEL_NAME=$1
 
@@ -99,68 +99,68 @@ function instantiateChaincode() {
 	peer chaincode instantiate -o orderer.example.com:7050 --tls $CORE_PEER_TLS_ENABLED \
 		--cafile $ORDERER_CA \
 		-C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": []}' \
-		-v $VERSION -P "OR ('ButtercupMSP.member','PopstarMSP.member')"
+		-v $VERSION -P "OR ('ClearingHouseMSP.member','ManufacturerMSP.member')"
 }
 
 
 # Create any number of channels here with new names.
-createChannel "buttercup-go"
-createChannel "haunt"
-createChannel "crisis-uprising"
-createChannel "containment-apocalyse"
-createChannel "rage-trilogy"
-createChannel "chaos-oath"
+createChannel "oil-orders"
+createChannel "credit-letters"
+createChannel "poc-bids"
+createChannel "supply-info"
+createChannel "plastic-buys"
+createChannel "loan-payments"
 
-# Have any number of peers to join here. Third argument is ButtercupMSP or PopstarMSP, last arg is 1 or 0 for anchor peer or not. Can only have 1 anchor peer per org per channel.
-joinChannel "peer0.buttercup.example.com" "buttercup-go" "ButtercupMSP" 1
-joinChannel "peer1.buttercup.example.com" "buttercup-go" "ButtercupMSP" 0
-joinChannel "peer0.popstar.example.com" "buttercup-go" "PopstarMSP" 1
-joinChannel "peer1.popstar.example.com" "buttercup-go" "PopstarMSP" 0
+# Have any number of peers to join here. Third argument is ClearingHouseMSP or ManufacturerMSP, last arg is 1 or 0 for anchor peer or not. Can only have 1 anchor peer per org per channel.
+joinChannel "peer0.clearinghouse.example.com" "oil-orders" "ClearingHouseMSP" 1
+joinChannel "peer1.clearinghouse.example.com" "oil-orders" "ClearingHouseMSP" 0
+joinChannel "peer0.manufacturer.example.com" "oil-orders" "ManufacturerMSP" 1
+joinChannel "peer1.manufacturer.example.com" "oil-orders" "ManufacturerMSP" 0
 
-joinChannel "peer0.buttercup.example.com" "haunt" "ButtercupMSP" 1
-joinChannel "peer1.buttercup.example.com" "haunt" "ButtercupMSP" 0
-joinChannel "peer0.popstar.example.com" "haunt" "PopstarMSP" 1
-joinChannel "peer1.popstar.example.com" "haunt" "PopstarMSP" 0
+joinChannel "peer0.clearinghouse.example.com" "credit-letters" "ClearingHouseMSP" 1
+joinChannel "peer1.clearinghouse.example.com" "credit-letters" "ClearingHouseMSP" 0
+joinChannel "peer0.manufacturer.example.com" "credit-letters" "ManufacturerMSP" 1
+joinChannel "peer1.manufacturer.example.com" "credit-letters" "ManufacturerMSP" 0
 
-joinChannel "peer0.buttercup.example.com" "crisis-uprising" "ButtercupMSP" 1
-joinChannel "peer1.buttercup.example.com" "crisis-uprising" "ButtercupMSP" 0
-joinChannel "peer0.popstar.example.com" "crisis-uprising" "PopstarMSP" 1
-joinChannel "peer1.popstar.example.com" "crisis-uprising" "PopstarMSP" 0
+joinChannel "peer0.clearinghouse.example.com" "poc-bids" "ClearingHouseMSP" 1
+joinChannel "peer1.clearinghouse.example.com" "poc-bids" "ClearingHouseMSP" 0
+joinChannel "peer0.manufacturer.example.com" "poc-bids" "ManufacturerMSP" 1
+joinChannel "peer1.manufacturer.example.com" "poc-bids" "ManufacturerMSP" 0
 
-joinChannel "peer0.buttercup.example.com" "containment-apocalyse" "ButtercupMSP" 1
-joinChannel "peer1.buttercup.example.com" "containment-apocalyse" "ButtercupMSP" 0
-joinChannel "peer0.popstar.example.com" "containment-apocalyse" "PopstarMSP" 1
-joinChannel "peer1.popstar.example.com" "containment-apocalyse" "PopstarMSP" 0
+joinChannel "peer0.clearinghouse.example.com" "supply-info" "ClearingHouseMSP" 1
+joinChannel "peer1.clearinghouse.example.com" "supply-info" "ClearingHouseMSP" 0
+joinChannel "peer0.manufacturer.example.com" "supply-info" "ManufacturerMSP" 1
+joinChannel "peer1.manufacturer.example.com" "supply-info" "ManufacturerMSP" 0
 
-joinChannel "peer0.buttercup.example.com" "rage-trilogy" "ButtercupMSP" 1
-joinChannel "peer1.buttercup.example.com" "rage-trilogy" "ButtercupMSP" 0
-joinChannel "peer0.popstar.example.com" "rage-trilogy" "PopstarMSP" 1
-joinChannel "peer1.popstar.example.com" "rage-trilogy" "PopstarMSP" 0
+joinChannel "peer0.clearinghouse.example.com" "plastic-buys" "ClearingHouseMSP" 1
+joinChannel "peer1.clearinghouse.example.com" "plastic-buys" "ClearingHouseMSP" 0
+joinChannel "peer0.manufacturer.example.com" "plastic-buys" "ManufacturerMSP" 1
+joinChannel "peer1.manufacturer.example.com" "plastic-buys" "ManufacturerMSP" 0
 
-joinChannel "peer0.buttercup.example.com" "chaos-oath" "ButtercupMSP" 1
-joinChannel "peer1.buttercup.example.com" "chaos-oath" "ButtercupMSP" 0
-joinChannel "peer0.popstar.example.com" "chaos-oath" "PopstarMSP" 1
-joinChannel "peer1.popstar.example.com" "chaos-oath" "PopstarMSP" 0
+joinChannel "peer0.clearinghouse.example.com" "loan-payments" "ClearingHouseMSP" 1
+joinChannel "peer1.clearinghouse.example.com" "loan-payments" "ClearingHouseMSP" 0
+joinChannel "peer0.manufacturer.example.com" "loan-payments" "ManufacturerMSP" 1
+joinChannel "peer1.manufacturer.example.com" "loan-payments" "ManufacturerMSP" 0
 
 # Install chaincode onto peers. Do not worry about channels here.
-installChaincode "peer0.buttercup.example.com" "splunk_cc" "ButtercupMSP" 1.0
-installChaincode "peer1.buttercup.example.com" "splunk_cc" "ButtercupMSP" 1.0
-installChaincode "peer0.popstar.example.com" "splunk_cc" "PopstarMSP" 1.0
-installChaincode "peer1.popstar.example.com" "splunk_cc" "PopstarMSP" 1.0
+installChaincode "peer0.clearinghouse.example.com" "splunk_cc" "ClearingHouseMSP" 1.0
+installChaincode "peer1.clearinghouse.example.com" "splunk_cc" "ClearingHouseMSP" 1.0
+installChaincode "peer0.manufacturer.example.com" "splunk_cc" "ManufacturerMSP" 1.0
+installChaincode "peer1.manufacturer.example.com" "splunk_cc" "ManufacturerMSP" 1.0
 
 # Instantiate chaincode on each channel.
-instantiateChaincode "peer0.popstar.example.com" "buttercup-go" "splunk_cc" "PopstarMSP" 1.0
-instantiateChaincode "peer0.popstar.example.com" "haunt" "splunk_cc" "PopstarMSP" 1.0
-instantiateChaincode "peer0.popstar.example.com" "crisis-uprising" "splunk_cc" "PopstarMSP" 1.0
-instantiateChaincode "peer0.popstar.example.com" "containment-apocalyse" "splunk_cc" "PopstarMSP" 1.0
-instantiateChaincode "peer0.popstar.example.com" "rage-trilogy" "splunk_cc" "PopstarMSP" 1.0
-instantiateChaincode "peer0.popstar.example.com" "chaos-oath" "splunk_cc" "PopstarMSP" 1.0
+instantiateChaincode "peer0.manufacturer.example.com" "oil-orders" "splunk_cc" "ManufacturerMSP" 1.0
+instantiateChaincode "peer0.manufacturer.example.com" "credit-letters" "splunk_cc" "ManufacturerMSP" 1.0
+instantiateChaincode "peer0.manufacturer.example.com" "poc-bids" "splunk_cc" "ManufacturerMSP" 1.0
+instantiateChaincode "peer0.manufacturer.example.com" "supply-info" "splunk_cc" "ManufacturerMSP" 1.0
+instantiateChaincode "peer0.manufacturer.example.com" "plastic-buys" "splunk_cc" "ManufacturerMSP" 1.0
+instantiateChaincode "peer0.manufacturer.example.com" "loan-payments" "splunk_cc" "ManufacturerMSP" 1.0
 
 # These set up channel logging to Splunk
-curl -X PUT fabric-logger-peer0:8080/channels/buttercup-go
-curl -X PUT fabric-logger-peer0:8080/channels/haunt
-curl -X PUT fabric-logger-peer0:8080/channels/crisis-uprising
-curl -X PUT fabric-logger-peer0:8080/channels/containment-apocalyse
-curl -X PUT fabric-logger-peer0:8080/channels/rage-trilogy
-curl -X PUT fabric-logger-peer0:8080/channels/chaos-oath
-curl -X PUT -H "Content-Type: application/json" -d '{"filter":"updateEvent"}' fabric-logger-peer0:8080/channels/buttercup-go/events/splunk_cc
+curl -X PUT fabric-logger-peer0:8080/channels/oil-orders
+curl -X PUT fabric-logger-peer0:8080/channels/credit-letters
+curl -X PUT fabric-logger-peer0:8080/channels/poc-bids
+curl -X PUT fabric-logger-peer0:8080/channels/supply-info
+curl -X PUT fabric-logger-peer0:8080/channels/plastic-buys
+curl -X PUT fabric-logger-peer0:8080/channels/loan-payments
+curl -X PUT -H "Content-Type: application/json" -d '{"filter":"updateEvent"}' fabric-logger-peer0:8080/channels/oil-orders/events/splunk_cc

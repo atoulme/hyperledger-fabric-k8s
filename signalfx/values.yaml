@@ -14,7 +14,7 @@ splunkSkipTLSVerify: true
 clusterName: dev-cluster
 
 image:
-  tag: 5.3.1
+  tag: 5.3.2
   pullPolicy: Always
 fullnameOverride: agent
 
@@ -66,25 +66,25 @@ monitors:
       metric_source: prometheus
       host_type: orderer
   - type: prometheus-exporter
-    host: hlf-peer--popstar--peer0
+    host: hlf-peer--manufacturer--peer0
     port: 9443
     extraDimensions:
       metric_source: prometheus
       host_type: peer
   - type: prometheus-exporter
-    host: hlf-peer--popstar--peer1
+    host: hlf-peer--manufacturer--peer1
     port: 9443
     extraDimensions:
       metric_source: prometheus
       host_type: peer
   - type: prometheus-exporter
-    host: hlf-peer--buttercup--peer0
+    host: hlf-peer--clearinghouse--peer0
     port: 9443
     extraDimensions:
       metric_source: prometheus
       host_type: peer
   - type: prometheus-exporter
-    host: hlf-peer--buttercup--peer1
+    host: hlf-peer--clearinghouse--peer1
     port: 9443
     extraDimensions:
       metric_source: prometheus

@@ -30,8 +30,8 @@ PeerOrgs:
   # ---------------------------------------------------------------------------
   # Org1
   # ---------------------------------------------------------------------------
-  - Name: Buttercup
-    Domain: buttercup.example.com
+  - Name: Clearinghouse
+    Domain: clearinghouse.example.com
     EnableNodeOUs: true
     # ---------------------------------------------------------------------------
     # "Specs"
@@ -81,8 +81,8 @@ PeerOrgs:
   # Org2: See "Org1" for full specification
   # ---------------------------------------------------------------------------
 
-  - Name: Popstar 
-    Domain: popstar.example.com
+  - Name: Manufacturer
+    Domain: manufacturer.example.com
     EnableNodeOUs: true
     Template:
       Count: 2
