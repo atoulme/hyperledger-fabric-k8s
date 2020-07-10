@@ -2,9 +2,6 @@
 # development K8s cluster with a Splunk cluster. You should change the imageTag
 # to whatever tag you are using for development.
 
-# Disable sending to SignalFx
-signalFxEnabled: false
-
 splunkUrl: https://splunk-splunk-kube:8088/services/collector
 splunkToken: 12345678-ABCD-EFGH-IJKL-123456789012
 splunkSource: sfx
@@ -14,7 +11,7 @@ splunkSkipTLSVerify: true
 clusterName: dev-cluster
 
 image:
-  tag: 5.3.1
+  tag: 5.3.2
   pullPolicy: Always
 fullnameOverride: agent
 

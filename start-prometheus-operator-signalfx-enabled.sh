@@ -8,4 +8,4 @@ kubectl apply -f signalfx-prometheus-operator/serviceMonitor-hlf.yml
 
 helm repo add signalfx https://dl.signalfx.com/helm-repo
 helm repo update
-helm upgrade --install signalfx-agent -f signalfx-prometheus-operator/signalfx-values.yaml -f signalfx-prometheus-operator/disable-signalfx.com.yaml signalfx/signalfx-agent
+helm upgrade --install signalfx-agent -f signalfx-prometheus-operator/signalfx-values.yaml -f signalfx-prometheus-operator/enable-signalfx.com.yaml signalfx/signalfx-agent

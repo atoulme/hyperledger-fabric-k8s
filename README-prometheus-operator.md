@@ -48,6 +48,18 @@ Install the prometheus-operator pod and the associated SignalFx agent, pointed a
 ```
 ./start-prometheus-operator-signalfx.sh
 ```
+Optionally, instead you can have your deployment report to signalfx.com.
+* First copy `signalfx-prometheus-operator/enable-signalfx.com.yaml.tmpl` into `signalfx-prometheus-operator/enable-signalfx.com.yaml`
+    
+`cp signalfx-prometheus-operator/enable-signalfx.com.yaml.tmpl signalfx-prometheus-operator/enable-signalfx.com.yaml`
+
+* Then edit `signalfx-prometheus-operator/enable-signalfx.com.yaml` to provide an access token and realm.
+
+Finally, run:
+```
+./start-prometheus-operator-signalfx-enabled.sh
+```
+    
 
 Now, we are ready to launch the network:
 ```
