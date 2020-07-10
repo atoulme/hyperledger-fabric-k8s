@@ -134,14 +134,14 @@ network:
         path: crypto-config/peerOrganizations/manufacturer.example.com/peers/peer0.manufacturer.example.com/msp/tlscacerts/tlsca.manufacturer.example.com-cert.pem
 
   chaincodes:
-    - name: high-throughput
+    - name: contractbid
       # if defined, this will override the global chaincode.version value
       version: "1.0" 
       # chaincode will be installed to all peers in these organizations
       orgs: [clearinghouse, manufacturer]
       # at which channels are we instantiating/upgrading chaincode?
       channels:
-      - name: clearinghouse-go
+      - name: clearinghouse
         # chaincode will be instantiated/upgraded using the first peer in the first organization
         # chaincode will be invoked on all peers in these organizations
         orgs: [clearinghouse, manufacturer]

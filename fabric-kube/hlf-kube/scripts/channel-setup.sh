@@ -60,7 +60,7 @@ function joinChannel() {
 	fi
 }
 
-function installChaincode() {
+function installChaincodeJava() {
 	PEER_NAME=$1
 	CHAINCODE_NAME=$2
 	MSP_ID=$3
@@ -68,7 +68,9 @@ function installChaincode() {
 	ORG_NAME=$( echo $PEER_NAME | cut -d. -f1 --complement)
 
 	mkdir -p $GOPATH/src/chaincode
-    tar -xf /chaincode/high-throughput/high-throughput.tar -C $GOPATH/src/chaincode
+    tar -xf /chaincode/contractbid/contractbid.tar -C $GOPATH/src/chaincode
+  cd $GOPATH/src/chaincode
+  ./gradlew shadowJar
 
 	echo "========== Installing chaincode [${CHAINCODE_NAME}] on ${PEER_NAME} =========="
 	export CORE_PEER_MSPCONFIGPATH=/hlf_config/crypto-config/peerOrganizations/$ORG_NAME/users/Admin@$ORG_NAME/msp
@@ -77,10 +79,10 @@ function installChaincode() {
 	export CORE_PEER_TLS_ROOTCERT_FILE=/hlf_config/crypto-config/peerOrganizations/$ORG_NAME/peers/$PEER_NAME/tls/ca.crt
 	export CORE_PEER_TLS_KEY_FILE=/hlf_config/crypto-config/peerOrganizations/$ORG_NAME/peers/$PEER_NAME/tls/server.key
 	export CORE_PEER_TLS_CERT_FILE=/hlf_config/crypto-config/peerOrganizations/$ORG_NAME/peers/$PEER_NAME/tls/server.crt
-	peer chaincode install -n $CHAINCODE_NAME -v $VERSION -p chaincode/high-throughput
+	peer chaincode install -l java -n $CHAINCODE_NAME -v $VERSION -p $GOPATH/src/chaincode
 }
 
-function instantiateChaincode() {
+function instantiateChaincodeJava() {
 	PEER_NAME=$1
 	CHANNEL_NAME=$2
 	CHAINCODE_NAME=$3
@@ -101,6 +103,7 @@ function instantiateChaincode() {
 		-C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": []}' \
 		-v $VERSION -P "OR ('ClearingHouseMSP.member','ManufacturerMSP.member')"
 }
+
 
 
 # Create any number of channels here with new names.
@@ -143,18 +146,18 @@ joinChannel "peer0.manufacturer.example.com" "loan-payments" "ManufacturerMSP" 1
 joinChannel "peer1.manufacturer.example.com" "loan-payments" "ManufacturerMSP" 0
 
 # Install chaincode onto peers. Do not worry about channels here.
-installChaincode "peer0.clearinghouse.example.com" "splunk_cc" "ClearingHouseMSP" 1.0
-installChaincode "peer1.clearinghouse.example.com" "splunk_cc" "ClearingHouseMSP" 1.0
-installChaincode "peer0.manufacturer.example.com" "splunk_cc" "ManufacturerMSP" 1.0
-installChaincode "peer1.manufacturer.example.com" "splunk_cc" "ManufacturerMSP" 1.0
+installChaincodeJava "peer0.clearinghouse.example.com" "splunk_cc" "ClearingHouseMSP" 1.0
+installChaincodeJava "peer1.clearinghouse.example.com" "splunk_cc" "ClearingHouseMSP" 1.0
+installChaincodeJava "peer0.manufacturer.example.com" "splunk_cc" "ManufacturerMSP" 1.0
+installChaincodeJava "peer1.manufacturer.example.com" "splunk_cc" "ManufacturerMSP" 1.0
 
 # Instantiate chaincode on each channel.
-instantiateChaincode "peer0.manufacturer.example.com" "oil-orders" "splunk_cc" "ManufacturerMSP" 1.0
-instantiateChaincode "peer0.manufacturer.example.com" "credit-letters" "splunk_cc" "ManufacturerMSP" 1.0
-instantiateChaincode "peer0.manufacturer.example.com" "poc-bids" "splunk_cc" "ManufacturerMSP" 1.0
-instantiateChaincode "peer0.manufacturer.example.com" "supply-info" "splunk_cc" "ManufacturerMSP" 1.0
-instantiateChaincode "peer0.manufacturer.example.com" "plastic-buys" "splunk_cc" "ManufacturerMSP" 1.0
-instantiateChaincode "peer0.manufacturer.example.com" "loan-payments" "splunk_cc" "ManufacturerMSP" 1.0
+instantiateChaincodeJava "peer0.manufacturer.example.com" "oil-orders" "splunk_cc" "ManufacturerMSP" 1.0
+instantiateChaincodeJava "peer0.manufacturer.example.com" "credit-letters" "splunk_cc" "ManufacturerMSP" 1.0
+instantiateChaincodeJava "peer0.manufacturer.example.com" "poc-bids" "splunk_cc" "ManufacturerMSP" 1.0
+instantiateChaincodeJava "peer0.manufacturer.example.com" "supply-info" "splunk_cc" "ManufacturerMSP" 1.0
+instantiateChaincodeJava "peer0.manufacturer.example.com" "plastic-buys" "splunk_cc" "ManufacturerMSP" 1.0
+instantiateChaincodeJava "peer0.manufacturer.example.com" "loan-payments" "splunk_cc" "ManufacturerMSP" 1.0
 
 # These set up channel logging to Splunk
 curl -X PUT fabric-logger-peer0:8080/channels/oil-orders
@@ -164,3 +167,5 @@ curl -X PUT fabric-logger-peer0:8080/channels/supply-info
 curl -X PUT fabric-logger-peer0:8080/channels/plastic-buys
 curl -X PUT fabric-logger-peer0:8080/channels/loan-payments
 curl -X PUT -H "Content-Type: application/json" -d '{"filter":"updateEvent"}' fabric-logger-peer0:8080/channels/oil-orders/events/splunk_cc
+curl -X PUT -H "Content-Type: application/json" -d '{"filter":"updateEvent"}' fabric-logger-peer0:8080/channels/poc-bids/events/splunk_cc
+
