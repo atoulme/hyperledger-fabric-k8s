@@ -101,7 +101,7 @@ function instantiateChaincodeJava() {
 	peer chaincode instantiate -o orderer.example.com:7050 --tls $CORE_PEER_TLS_ENABLED \
 		--cafile $ORDERER_CA \
 		-C $CHANNEL_NAME -n $CHAINCODE_NAME -c '{"Args": []}' \
-		-v $VERSION -P "OR ('ClearingHouseMSP.member','ManufacturerMSP.member')"
+		-v $VERSION -P "OR ('ClearinghouseMSP.member','ManufacturerMSP.member')"
 }
 
 
@@ -114,40 +114,40 @@ createChannel "supply-info"
 createChannel "plastic-buys"
 createChannel "loan-payments"
 
-# Have any number of peers to join here. Third argument is ClearingHouseMSP or ManufacturerMSP, last arg is 1 or 0 for anchor peer or not. Can only have 1 anchor peer per org per channel.
-joinChannel "peer0.clearinghouse.example.com" "oil-orders" "ClearingHouseMSP" 1
-joinChannel "peer1.clearinghouse.example.com" "oil-orders" "ClearingHouseMSP" 0
+# Have any number of peers to join here. Third argument is ClearinghouseMSP or ManufacturerMSP, last arg is 1 or 0 for anchor peer or not. Can only have 1 anchor peer per org per channel.
+joinChannel "peer0.clearinghouse.example.com" "oil-orders" "ClearinghouseMSP" 1
+joinChannel "peer1.clearinghouse.example.com" "oil-orders" "ClearinghouseMSP" 0
 joinChannel "peer0.manufacturer.example.com" "oil-orders" "ManufacturerMSP" 1
 joinChannel "peer1.manufacturer.example.com" "oil-orders" "ManufacturerMSP" 0
 
-joinChannel "peer0.clearinghouse.example.com" "credit-letters" "ClearingHouseMSP" 1
-joinChannel "peer1.clearinghouse.example.com" "credit-letters" "ClearingHouseMSP" 0
+joinChannel "peer0.clearinghouse.example.com" "credit-letters" "ClearinghouseMSP" 1
+joinChannel "peer1.clearinghouse.example.com" "credit-letters" "ClearinghouseMSP" 0
 joinChannel "peer0.manufacturer.example.com" "credit-letters" "ManufacturerMSP" 1
 joinChannel "peer1.manufacturer.example.com" "credit-letters" "ManufacturerMSP" 0
 
-joinChannel "peer0.clearinghouse.example.com" "poc-bids" "ClearingHouseMSP" 1
-joinChannel "peer1.clearinghouse.example.com" "poc-bids" "ClearingHouseMSP" 0
+joinChannel "peer0.clearinghouse.example.com" "poc-bids" "ClearinghouseMSP" 1
+joinChannel "peer1.clearinghouse.example.com" "poc-bids" "ClearinghouseMSP" 0
 joinChannel "peer0.manufacturer.example.com" "poc-bids" "ManufacturerMSP" 1
 joinChannel "peer1.manufacturer.example.com" "poc-bids" "ManufacturerMSP" 0
 
-joinChannel "peer0.clearinghouse.example.com" "supply-info" "ClearingHouseMSP" 1
-joinChannel "peer1.clearinghouse.example.com" "supply-info" "ClearingHouseMSP" 0
+joinChannel "peer0.clearinghouse.example.com" "supply-info" "ClearinghouseMSP" 1
+joinChannel "peer1.clearinghouse.example.com" "supply-info" "ClearinghouseMSP" 0
 joinChannel "peer0.manufacturer.example.com" "supply-info" "ManufacturerMSP" 1
 joinChannel "peer1.manufacturer.example.com" "supply-info" "ManufacturerMSP" 0
 
-joinChannel "peer0.clearinghouse.example.com" "plastic-buys" "ClearingHouseMSP" 1
-joinChannel "peer1.clearinghouse.example.com" "plastic-buys" "ClearingHouseMSP" 0
+joinChannel "peer0.clearinghouse.example.com" "plastic-buys" "ClearinghouseMSP" 1
+joinChannel "peer1.clearinghouse.example.com" "plastic-buys" "ClearinghouseMSP" 0
 joinChannel "peer0.manufacturer.example.com" "plastic-buys" "ManufacturerMSP" 1
 joinChannel "peer1.manufacturer.example.com" "plastic-buys" "ManufacturerMSP" 0
 
-joinChannel "peer0.clearinghouse.example.com" "loan-payments" "ClearingHouseMSP" 1
-joinChannel "peer1.clearinghouse.example.com" "loan-payments" "ClearingHouseMSP" 0
+joinChannel "peer0.clearinghouse.example.com" "loan-payments" "ClearinghouseMSP" 1
+joinChannel "peer1.clearinghouse.example.com" "loan-payments" "ClearinghouseMSP" 0
 joinChannel "peer0.manufacturer.example.com" "loan-payments" "ManufacturerMSP" 1
 joinChannel "peer1.manufacturer.example.com" "loan-payments" "ManufacturerMSP" 0
 
 # Install chaincode onto peers. Do not worry about channels here.
-installChaincodeJava "peer0.clearinghouse.example.com" "splunk_cc" "ClearingHouseMSP" 1.0
-installChaincodeJava "peer1.clearinghouse.example.com" "splunk_cc" "ClearingHouseMSP" 1.0
+installChaincodeJava "peer0.clearinghouse.example.com" "splunk_cc" "ClearinghouseMSP" 1.0
+installChaincodeJava "peer1.clearinghouse.example.com" "splunk_cc" "ClearinghouseMSP" 1.0
 installChaincodeJava "peer0.manufacturer.example.com" "splunk_cc" "ManufacturerMSP" 1.0
 installChaincodeJava "peer1.manufacturer.example.com" "splunk_cc" "ManufacturerMSP" 1.0
 
