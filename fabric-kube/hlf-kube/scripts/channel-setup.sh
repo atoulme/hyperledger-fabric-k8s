@@ -79,7 +79,7 @@ function installChaincodeJava() {
 	export CORE_PEER_TLS_ROOTCERT_FILE=/hlf_config/crypto-config/peerOrganizations/$ORG_NAME/peers/$PEER_NAME/tls/ca.crt
 	export CORE_PEER_TLS_KEY_FILE=/hlf_config/crypto-config/peerOrganizations/$ORG_NAME/peers/$PEER_NAME/tls/server.key
 	export CORE_PEER_TLS_CERT_FILE=/hlf_config/crypto-config/peerOrganizations/$ORG_NAME/peers/$PEER_NAME/tls/server.crt
-	peer chaincode install -l java -n $CHAINCODE_NAME -v $VERSION -p $GOPATH/src/chaincode
+	peer chaincode install -l java -n $CHAINCODE_NAME -v $VERSION -p $GOPATH/src/chaincode/contractbid/
 }
 
 function instantiateChaincodeJava() {
