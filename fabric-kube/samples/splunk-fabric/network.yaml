@@ -141,7 +141,7 @@ network:
       orgs: [Clearinghouse, Manufacturer]
       # at which channels are we instantiating/upgrading chaincode?
       channels:
-      - name: clearinghouse
+      - name: oil-orders
         # chaincode will be instantiated/upgraded using the first peer in the first organization
         # chaincode will be invoked on all peers in these organizations
         orgs: [Clearinghouse, Manufacturer]
