@@ -69,7 +69,7 @@ function installChaincodeJava() {
 
 	mkdir -p $GOPATH/src/chaincode
     tar -xf /chaincode/contractbid/contractbid.tar -C $GOPATH/src/chaincode
-  cd $GOPATH/src/chaincode
+  cd $GOPATH/src/chaincode/contractbid/
   ./gradlew shadowJar
 
 	echo "========== Installing chaincode [${CHAINCODE_NAME}] on ${PEER_NAME} =========="
