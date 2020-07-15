@@ -190,7 +190,7 @@ peers:
 # Certificate Authority instead of Fabric-CA, in which case this section would not be specified.
 #
 certificateAuthorities:
-  ca-clearinghouse:
+  ca.clearinghouse.example.com:
     url: https://hlf-ca--clearinghouse:7054
     # the properties specified under this object are passed to the 'http' client verbatim when
     # making the request to the Fabric-CA server
@@ -205,9 +205,9 @@ certificateAuthorities:
       - enrollId: admin
         enrollSecret: adminpw
     # [Optional] The optional name of the CA.
-    caName: ca-clearinghouse
+    caName: ca.clearinghouse.example.com
 
-  ca-manufacturer:
+  ca.manufacturer.example.com:
     url: https://hlf-ca--manufacturer:7054
     httpOptions:
       verify: false
@@ -217,4 +217,4 @@ certificateAuthorities:
       - enrollId: admin
         enrollSecret: adminpw
     # [Optional] The optional name of the CA.
-    caName: ca-manufacturer
+    caName: ca.manufacturer.example.com
