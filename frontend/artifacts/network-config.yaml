@@ -112,7 +112,7 @@ organizations:
     certificateAuthorities:
       - ca-Clearinghouse
     adminPrivateKey:
-      path: /artifacts/crypto-config/peerOrganizations/manufacturer.example.com/users/Admin@clearinghouse.example.com/msp/keystore/11597db4951044f02dc581b2da9e2065b5b322a44ceebdcd40591c47b6dc4abe_sk
+      path: /artifacts/crypto-config/peerOrganizations/clearinghouse.example.com/users/Admin@clearinghouse.example.com/msp/keystore/11597db4951044f02dc581b2da9e2065b5b322a44ceebdcd40591c47b6dc4abe_sk
     signedCert:
       path: /artifacts/crypto-config/peerOrganizations/clearinghouse.example.com/users/Admin@clearinghouse.example.com/msp/signcerts/Admin@clearinghouse.example.com-cert.pem
   # the profile will contain public information about organizations other than the one it belongs to.
