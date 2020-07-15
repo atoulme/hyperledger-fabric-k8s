@@ -156,7 +156,7 @@ orderers:
 peers:
   peer0.clearinghouse.example.com:
     # this URL is used to send endorsement and query requests
-    url: grpc://peer0.clearinghouse.example.com:7051
+    url: grpcs://peer0.clearinghouse.example.com:7051
 
     grpcOptions:
       ssl-target-name-override: peer0.clearinghouse.example.com
@@ -164,21 +164,21 @@ peers:
       path: /artifacts/crypto-config/peerOrganizations/clearinghouse.example.com/peers/peer0.clearinghouse.example.com/tls/ca.crt
 
   peer1.clearinghouse.example.com:
-    url: grpc://peer1.clearinghouse.example.com:7051
+    url: grpcs://peer1.clearinghouse.example.com:7051
     grpcOptions:
       ssl-target-name-override: peer1.clearinghouse.example.com
     tlsCACerts:
       path: /artifacts/crypto-config/peerOrganizations/clearinghouse.example.com/peers/peer1.clearinghouse.example.com/tls/ca.crt
 
   peer0.manufacturer.example.com:
-    url: grpc://peer0.manufacturer.example.com:7051
+    url: grpcs://peer0.manufacturer.example.com:7051
     grpcOptions:
       ssl-target-name-override: peer0.manufacturer.example.com
     tlsCACerts:
       path: /artifacts/crypto-config/peerOrganizations/manufacturer.example.com/peers/peer0.manufacturer.example.com/tls/ca.crt
 
   peer1.manufacturer.example.com:
-    url: grpc://peer1.manufacturer.example.com:7051
+    url: grpcs://peer1.manufacturer.example.com:7051
     grpcOptions:
       ssl-target-name-override: peer1.manufacturer.example.com
     tlsCACerts:
