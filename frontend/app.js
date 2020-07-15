@@ -89,14 +89,6 @@ var server = http.createServer(app).listen(port, function() {});
 logger.info('****************** SERVER STARTED ************************');
 logger.info('***************  http://%s:%s  ******************',host,port);
 server.timeout = 240000;
-const terminationFn = () => {
-	console.log('Closing http server.');
-	server.close(() => {
-		console.log('Http server closed.');
-	});
-};
-process.on('SIGTERM', terminationFn);
-process.on('SIGINT', terminationFn);
 
 function getErrorMessage(field) {
 	var response = {
