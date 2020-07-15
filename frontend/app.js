@@ -85,6 +85,9 @@ app.set('secret', 'thisismysecret');
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// START SERVER /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
+process.on('uncaughtException', function(ex) {
+	logger.error("Uncaught exception", ex);
+});
 var server = http.createServer(app).listen(port, function() {});
 logger.info('****************** SERVER STARTED ************************');
 logger.info('***************  http://%s:%s  ******************',host,port);
@@ -166,6 +169,10 @@ app.post('/channels/:channelName/chaincodes/:chaincodeName/:orgname/:username', 
 		return;
 	}
 
-	let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, fcn, args, username, orgname);
-	res.send(message);
+	try {
+		let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, fcn, args, username, orgname);
+		res.send(message);
+	} catch(ex) {
+		res.json({success: false, message: ex.message});
+	}
 });

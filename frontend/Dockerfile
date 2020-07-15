@@ -10,4 +10,4 @@ COPY app.js config.js config.json /
 
 ENV HFC_LOGGING='{"debug":"console","info":"console"}'
 
-CMD node app.js
+CMD node --max-old-space-size=256m app.js
