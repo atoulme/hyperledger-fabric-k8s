@@ -156,7 +156,7 @@ orderers:
 peers:
   peer0.clearinghouse.example.com:
     # this URL is used to send endorsement and query requests
-    url: grpcs://peer0.clearinghouse.example.com:7051
+    url: grpcs://hlf-peer--clearinghouse--peer0:7051
 
     grpcOptions:
       ssl-target-name-override: peer0.clearinghouse.example.com
@@ -164,7 +164,7 @@ peers:
       path: /artifacts/crypto-config/peerOrganizations/clearinghouse.example.com/peers/peer0.clearinghouse.example.com/tls/ca.crt
 
   peer1.clearinghouse.example.com:
-    url: grpcs://hlf-peer--clearinghouse--peer0:7051
+    url: grpcs://hlf-peer--clearinghouse--peer1:7051
     grpcOptions:
       ssl-target-name-override: peer1.clearinghouse.example.com
     tlsCACerts:
