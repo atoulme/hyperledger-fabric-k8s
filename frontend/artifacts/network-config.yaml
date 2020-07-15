@@ -125,7 +125,7 @@ organizations:
     certificateAuthorities:
       - ca-manufacturer
     adminPrivateKey:
-      path: /artifacts/crypto-config/peerOrganizations/manufacturer.example.com/users/Admin@manufacturer.example.com/msp/keystore/1995b11d6573ed3be52fcd7a5fa477bc0f183e1f5f398c8281d0ce7c2c75a076_sk
+      path: /artifacts/crypto-config/peerOrganizations/manufacturer.example.com/users/Admin@manufacturer.example.com/msp/keystore/390c85fbbe6e09ca9048102b0a37cc5d3c524c6da96c68848bffa52ec2945892_sk
     signedCert:
       path: /artifacts/crypto-config/peerOrganizations/manufacturer.example.com/users/Admin@manufacturer.example.com/msp/signcerts/Admin@manufacturer.example.com-cert.pem
 
