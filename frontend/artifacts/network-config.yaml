@@ -139,7 +139,7 @@ organizations:
 #
 orderers:
   orderer.example.com:
-    url: grpcs://orderer.example.com:7050
+    url: grpcs://hlf-orderer--orderer:7050
 
     # these are standard properties defined by the gRPC library
     # they will be passed in as-is to gRPC client constructor
@@ -164,21 +164,21 @@ peers:
       path: /artifacts/crypto-config/peerOrganizations/clearinghouse.example.com/peers/peer0.clearinghouse.example.com/tls/ca.crt
 
   peer1.clearinghouse.example.com:
-    url: grpcs://peer1.clearinghouse.example.com:7051
+    url: grpcs://hlf-peer--clearinghouse--peer0:7051
     grpcOptions:
       ssl-target-name-override: peer1.clearinghouse.example.com
     tlsCACerts:
       path: /artifacts/crypto-config/peerOrganizations/clearinghouse.example.com/peers/peer1.clearinghouse.example.com/tls/ca.crt
 
   peer0.manufacturer.example.com:
-    url: grpcs://peer0.manufacturer.example.com:7051
+    url: grpcs://hlf-peer--manufacturer--peer0:7051
     grpcOptions:
       ssl-target-name-override: peer0.manufacturer.example.com
     tlsCACerts:
       path: /artifacts/crypto-config/peerOrganizations/manufacturer.example.com/peers/peer0.manufacturer.example.com/tls/ca.crt
 
   peer1.manufacturer.example.com:
-    url: grpcs://peer1.manufacturer.example.com:7051
+    url: grpcs://hlf-peer--manufacturer--peer1:7051
     grpcOptions:
       ssl-target-name-override: peer1.manufacturer.example.com
     tlsCACerts:
