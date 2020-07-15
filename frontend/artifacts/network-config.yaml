@@ -194,7 +194,7 @@ certificateAuthorities:
     httpOptions:
       verify: false
     tlsCACerts:
-      path: artifacts/channel/crypto-config/peerOrganizations/clearinghouse.example.com/ca/ca.clearinghouse.example.com-cert.pem
+      path: /artifacts/crypto-config/peerOrganizations/clearinghouse.example.com/ca/ca.clearinghouse.example.com-cert.pem
 
     # Fabric-CA supports dynamic user enrollment via REST APIs. A "root" user, a.k.a registrar, is
     # needed to enroll and invoke new users.
@@ -209,7 +209,7 @@ certificateAuthorities:
     httpOptions:
       verify: false
     tlsCACerts:
-      path: artifacts/channel/crypto-config/peerOrganizations/manufacturer.example.com/ca/ca.manufacturer.example.com-cert.pem
+      path: /artifacts/crypto-config/peerOrganizations/manufacturer.example.com/ca/ca.manufacturer.example.com-cert.pem
     registrar:
       - enrollId: admin
         enrollSecret: adminpw
