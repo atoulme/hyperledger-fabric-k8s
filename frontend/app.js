@@ -165,6 +165,6 @@ app.post('/channels/:channelName/chaincodes/:chaincodeName/:orgname', async func
 		return;
 	}
 
-	let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, fcn, args, undefined, orgname);
+	let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, fcn, args, 'Admin', orgname);
 	res.send(message);
 });
