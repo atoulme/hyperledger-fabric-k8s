@@ -110,7 +110,7 @@ organizations:
     # dynamic certificate management (enroll, revoke, re-enroll). The following section is only for
     # Fabric-CA servers.
     certificateAuthorities:
-      - ca.clearinghouse.example.com
+      - ca-Clearinghouse
     adminPrivateKey:
       path: /artifacts/crypto-config/peerOrganizations/manufacturer.example.com/users/Admin@clearinghouse.example.com/msp/keystore/11597db4951044f02dc581b2da9e2065b5b322a44ceebdcd40591c47b6dc4abe_sk
     signedCert:
@@ -126,7 +126,7 @@ organizations:
       - peer0.manufacturer.example.com
       - peer1.manufacturer.example.com
     certificateAuthorities:
-      - ca.manufacturer.example.com
+      - ca-Manufacturer
     adminPrivateKey:
       path: /artifacts/crypto-config/peerOrganizations/manufacturer.example.com/users/Admin@manufacturer.example.com/msp/keystore/390c85fbbe6e09ca9048102b0a37cc5d3c524c6da96c68848bffa52ec2945892_sk
     signedCert:
@@ -190,7 +190,7 @@ peers:
 # Certificate Authority instead of Fabric-CA, in which case this section would not be specified.
 #
 certificateAuthorities:
-  ca.clearinghouse.example.com:
+  ca-Clearinghouse:
     url: https://hlf-ca--clearinghouse:7054
     # the properties specified under this object are passed to the 'http' client verbatim when
     # making the request to the Fabric-CA server
@@ -207,7 +207,7 @@ certificateAuthorities:
     # [Optional] The optional name of the CA.
     caName: ca.clearinghouse.example.com
 
-  ca.manufacturer.example.com:
+  ca-Manufacturer:
     url: https://hlf-ca--manufacturer:7054
     httpOptions:
       verify: false
@@ -217,4 +217,4 @@ certificateAuthorities:
       - enrollId: admin
         enrollSecret: adminpw
     # [Optional] The optional name of the CA.
-    caName: ca.manufacturer.example.com
+    caName: ca-Manufacturer
