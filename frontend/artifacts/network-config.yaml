@@ -125,9 +125,9 @@ organizations:
     certificateAuthorities:
       - ca-manufacturer
     adminPrivateKey:
-      path: artifacts/channel/crypto-config/peerOrganizations/manufacturer.example.com/users/Admin@manufacturer.example.com/msp/keystore/1995b11d6573ed3be52fcd7a5fa477bc0f183e1f5f398c8281d0ce7c2c75a076_sk
+      path: /artifacts/crypto-config/peerOrganizations/manufacturer.example.com/users/Admin@manufacturer.example.com/msp/keystore/1995b11d6573ed3be52fcd7a5fa477bc0f183e1f5f398c8281d0ce7c2c75a076_sk
     signedCert:
-      path: artifacts/channel/crypto-config/peerOrganizations/manufacturer.example.com/users/Admin@manufacturer.example.com/msp/signcerts/Admin@manufacturer.example.com-cert.pem
+      path: /artifacts/crypto-config/peerOrganizations/manufacturer.example.com/users/Admin@manufacturer.example.com/msp/signcerts/Admin@manufacturer.example.com-cert.pem
 
 #
 # List of orderers to send transaction and channel create/update requests to. For the time
@@ -144,7 +144,7 @@ orderers:
       ssl-target-name-override: orderer.example.com
 
     tlsCACerts:
-      path: artifacts/channel/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/ca.crt
+      path: /artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/ca.crt
 
 #
 # List of peers to send various requests to, including endorsement, query
@@ -158,28 +158,28 @@ peers:
     grpcOptions:
       ssl-target-name-override: peer0.clearinghouse.example.com
     tlsCACerts:
-      path: artifacts/channel/crypto-config/peerOrganizations/clearinghouse.example.com/peers/peer0.clearinghouse.example.com/tls/ca.crt
+      path: /artifacts/crypto-config/peerOrganizations/clearinghouse.example.com/peers/peer0.clearinghouse.example.com/tls/ca.crt
 
   peer1.clearinghouse.example.com:
     url: grpcs://peer1.clearinghouse.example.com:7051
     grpcOptions:
       ssl-target-name-override: peer1.clearinghouse.example.com
     tlsCACerts:
-      path: artifacts/channel/crypto-config/peerOrganizations/clearinghouse.example.com/peers/peer1.clearinghouse.example.com/tls/ca.crt
+      path: /artifacts/crypto-config/peerOrganizations/clearinghouse.example.com/peers/peer1.clearinghouse.example.com/tls/ca.crt
 
   peer0.manufacturer.example.com:
     url: grpcs://peer0.manufacturer.example.com:7051
     grpcOptions:
       ssl-target-name-override: peer0.manufacturer.example.com
     tlsCACerts:
-      path: artifacts/channel/crypto-config/peerOrganizations/manufacturer.example.com/peers/peer0.manufacturer.example.com/tls/ca.crt
+      path: /artifacts/crypto-config/peerOrganizations/manufacturer.example.com/peers/peer0.manufacturer.example.com/tls/ca.crt
 
   peer1.manufacturer.example.com:
     url: grpcs://peer1.manufacturer.example.com:7051
     grpcOptions:
       ssl-target-name-override: peer1.manufacturer.example.com
     tlsCACerts:
-      path: artifacts/channel/crypto-config/peerOrganizations/manufacturer.example.com/peers/peer1.manufacturer.example.com/tls/ca.crt
+      path: /artifacts/crypto-config/peerOrganizations/manufacturer.example.com/peers/peer1.manufacturer.example.com/tls/ca.crt
 
 #
 # Fabric-CA is a special kind of Certificate Authority provided by Hyperledger Fabric which allows
