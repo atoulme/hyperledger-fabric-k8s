@@ -200,7 +200,6 @@ app.get('/channels/:channelName/chaincodes/:chaincodeName', async function(req, 
 	logger.debug('channelName : ' + channelName);
 	logger.debug('chaincodeName : ' + chaincodeName);
 	logger.debug('fcn : ' + fcn);
-	logger.debug('args : ' + args);
 
 	if (!chaincodeName) {
 		res.json(getErrorMessage('\'chaincodeName\''));
@@ -214,7 +213,6 @@ app.get('/channels/:channelName/chaincodes/:chaincodeName', async function(req, 
 		res.json(getErrorMessage('\'fcn\''));
 		return;
 	}
-	logger.debug(args);
 
 	let message = await query.queryChaincode(peer, channelName, chaincodeName, fcn, username, orgname);
 	res.send(message);
