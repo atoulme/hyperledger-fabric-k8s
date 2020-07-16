@@ -19,7 +19,7 @@ var util = require('util');
 var helper = require('./helper.js');
 var logger = helper.getLogger('Query');
 
-const wallet = new FileSystemWallet('/local_fabric_wallet');
+const wallet = new FileSystemWallet('./fabric-client-kv-acme');
 
 
 var queryChaincode = async function(peer, channelName, chaincodeName, fcn, username, org_name) {
