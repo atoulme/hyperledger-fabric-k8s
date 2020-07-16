@@ -33,6 +33,7 @@ var hfc = require('fabric-client');
 
 var helper = require('./app/helper.js');
 var invoke = require('./app/invoke-transaction.js');
+var runTx = require('./app/run-tx.js');
 var query = require('./app/query.js');
 var host = process.env.HOST || hfc.getConfigSetting('host');
 var port = process.env.PORT || hfc.getConfigSetting('port');
@@ -193,9 +194,6 @@ app.get('/channels/:channelName/chaincodes/:chaincodeName', async function(req, 
 	var channelName = req.params.channelName;
 	var chaincodeName = req.params.chaincodeName;
 	let fcn = req.query.fcn;
-	let peer = req.query.peer;
-	var orgname = req.query.orgname;
-	var username = req.query.username;
 
 	logger.debug('channelName : ' + channelName);
 	logger.debug('chaincodeName : ' + chaincodeName);
@@ -214,6 +212,66 @@ app.get('/channels/:channelName/chaincodes/:chaincodeName', async function(req, 
 		return;
 	}
 
-	let message = await query.queryChaincode(peer, channelName, chaincodeName, fcn, username, orgname);
+	let message = await query.queryChaincode(channelName, chaincodeName, fcn);
 	res.send(message);
+});
+
+function generateID() {
+	return Math.random().toString(36).substr(2);
+}
+
+async function generateAuctionAndBids(auctionName) {
+	logger.debug('==================== GENERATE AUCTION AND BIDS ==================');
+	var chaincodeName = "splunk_cc";
+	var channelName = "poc-bids";
+	var fcn = "createAuction";
+	const auctionId = generateID();
+	var args = [auctionId, auctionName];
+	logger.debug('channelName  : ' + channelName);
+	logger.debug('chaincodeName : ' + chaincodeName);
+	logger.debug('fcn  : ' + fcn);
+	logger.debug('args  : ' + args);
+
+	try {
+		let message = await runTx.runTx(channelName, chaincodeName, fcn, args);
+		return message;
+	} catch(ex) {
+		return {success: false, message: ex.message};
+	}
+}
+
+function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function scheduleAuctionAndBids(auctionBaseName, counter) {
+	await generateAuctionAndBids(auctionBaseName + ' ' + ++counter);
+	await sleep(30000);
+	if (generatorOn) {
+		scheduleAuctionAndBids(auctionBaseName, counter);
+	}
+}
+
+app.get('/generateAuctionAndBids', async function(req, res) {
+    const result = await generateAuctionAndBids();
+    res.send(result);
+});
+
+var generatorOn = false;
+
+app.get('/startBidBot', async function(req, res) {
+	logger.debug('==================== START BID BOT ==================');
+	if (!generatorOn) {
+		generatorOn = true;
+		res.end('OK', () => scheduleAuctionAndBids("Bot auction", 0));
+	} else {
+		res.send('Already started');
+	}
+
+});
+
+app.get('/stopBidBot', async function(req, res) {
+	logger.debug('==================== STOP BID BOT ==================');
+	generatorOn = false;
+	res.send("OK");
 });

@@ -19,15 +19,15 @@ var util = require('util');
 var helper = require('./helper.js');
 var logger = helper.getLogger('Query');
 
-var queryChaincode = async function(channelName, chaincodeName, fcn) {
+var runTx = async function(channelName, chaincodeName, fcn, username, org_name) {
 	let gateway = null;
 	try {
 		// first setup the client for this org
-		gateway = await helper.getGateway();
+		gateway = await helper.getGatewayFor(org_name, username);
 		const network = await gateway.getNetwork(channelName);
-		logger.debug('Successfully got the fabric client for the organization "%s"', org_name);
+		logger.debug('Successfully got the fabric network for the organization "%s"', org_name);
 		const contract = network.getContract(chaincodeName);
-		let results = await contract.evaluateTransaction(fcn);
+		let results = await contract.submitTransaction(fcn);
 		logger.debug('Results: ' + results.toString());
 		return results.toString();
 	} catch(error) {
@@ -40,4 +40,4 @@ var queryChaincode = async function(channelName, chaincodeName, fcn) {
 	}
 };
 
-exports.queryChaincode = queryChaincode;
+exports.runTx = runTx;

@@ -22,11 +22,11 @@ var fs = require("fs");
 var util = require('util');
 const yaml = require('js-yaml');
 var hfc = require('fabric-client');
-const { FileSystemWallet, Gateway, X509WalletMixin } = require('fabric-network');
+const { InMemoryWallet, Gateway, X509WalletMixin } = require('fabric-network');
 
 hfc.setLogger(logger);
 
-const wallet = new FileSystemWallet('/gateway-wallet');
+const wallet = new InMemoryWallet();
 var walletInitialized = false;
 async function initWallet() {
 	if (walletInitialized) {
@@ -44,9 +44,9 @@ async function initWallet() {
 	walletInitialized = true;
 }
 
-async function getGatewayFor(userorg, username) {
+async function getGateway() {
 	await initWallet();
-	logger.debug('getGatewayFor - ****** START %s %s', userorg, username);
+	logger.debug('getGateway - ****** START');
 
 	// build a client context and load it with a connection profile
 	// lets only load the network settings and save the client for later
@@ -160,4 +160,4 @@ var getLogger = function(moduleName) {
 exports.getClientForOrg = getClientForOrg;
 exports.getLogger = getLogger;
 exports.getRegisteredUser = getRegisteredUser;
-exports.getGatewayFor = getGatewayFor;
+exports.getGateway = getGateway;
