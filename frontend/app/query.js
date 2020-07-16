@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-import {Gateway} from "fabric-network";
+var fabricNetwork = require("fabric-network");
 
 var util = require('util');
 var helper = require('./helper.js');
@@ -25,7 +25,7 @@ var queryChaincode = async function(peer, channelName, chaincodeName, fcn, usern
 	try {
 		// first setup the client for this org
 		client = await helper.getClientForOrg(org_name, username);
-		gateway = new Gateway();
+		gateway = new fabricNetwork.Gateway();
 		await gateway.connect(client);
 		const network = await gateway.getNetwork(channelName);
 		logger.debug('Successfully got the fabric client for the organization "%s"', org_name);
