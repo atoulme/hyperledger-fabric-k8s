@@ -28,20 +28,33 @@ hfc.setLogger(logger);
 
 const wallet = new FileSystemWallet('/gateway-wallet');
 
+// define the identity to use
+const cert = fs.readFileSync(path.join(credPath, '/artifacts/crypto-config/peerOrganizations/manufacturer.example.com/users/User1@manufacturer.example.com/msp/admincerts/User1@manufacturer.example.com-cert.pem')).toString();
+const key = fs.readFileSync(path.join(credPath, '/artifacts/crypto-config/peerOrganizations/manufacturer.example.com/users/User1@manufacturer.example.com/msp/keystore/e7b6aac26e214155fa6faa90d7fb753c8ff6dd0f18cf740c577aa804237faabd_sk')).toString();
+
+const identityLabel = 'User1@manufacturer.example.com';
+const identity = {
+	credentials: {
+		certificate: cert,
+		privateKey: key,
+	},
+	mspId: 'ManufacturerMSP',
+	type: 'X.509',
+};
+
+wallet.put(identityLabel, identity);
+
 async function getGatewayFor(userorg, username) {
 	logger.debug('getGatewayFor - ****** START %s %s', userorg, username);
 
 	// build a client context and load it with a connection profile
 	// lets only load the network settings and save the client for later
 	let gateway = new Gateway();
-	// define the identity to use
-	const identityLabel = 'admin';
 
 	// Load connection profile; will be used to locate a gateway
 	const connectionProfile = yaml.safeLoad(fs.readFileSync('/artifacts/network-config.yaml', 'utf8'));
 	const discoveryAsLocalhost = false;
 	const discoveryEnabled = true;
-	// Set connection options; use 'admin' identity from application wallet
 	const connectionOptions = {
 		discovery: {
 			asLocalhost: discoveryAsLocalhost,
