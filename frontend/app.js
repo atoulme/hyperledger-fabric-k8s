@@ -91,6 +91,14 @@ process.on('uncaughtException', function(ex) {
 var server = http.createServer(app).listen(port, function() {});
 logger.info('****************** SERVER STARTED ************************');
 logger.info('***************  http://%s:%s  ******************',host,port);
+const terminationFn = () => {
+	console.log('Closing http server.');
+	server.close(() => {
+		console.log('Http server closed.');
+	});
+};
+process.on('SIGTERM', terminationFn);
+process.on('SIGINT', terminationFn);
 server.timeout = 240000;
 
 function getErrorMessage(field) {
@@ -101,6 +109,8 @@ function getErrorMessage(field) {
 	return response;
 }
 
+// Serve static files:
+app.use(express.static('/public'));
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////// REST ENDPOINTS START HERE ///////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -175,4 +185,42 @@ app.post('/channels/:channelName/chaincodes/:chaincodeName/:orgname/:username', 
 	} catch(ex) {
 		res.json({success: false, message: ex.message});
 	}
+});
+
+// Query on chaincode on target peers
+app.get('/channels/:channelName/chaincodes/:chaincodeName', async function(req, res) {
+	logger.debug('==================== QUERY BY CHAINCODE ==================');
+	var channelName = req.params.channelName;
+	var chaincodeName = req.params.chaincodeName;
+	let args = req.query.args;
+	let fcn = req.query.fcn;
+	let peer = req.query.peer;
+
+	logger.debug('channelName : ' + channelName);
+	logger.debug('chaincodeName : ' + chaincodeName);
+	logger.debug('fcn : ' + fcn);
+	logger.debug('args : ' + args);
+
+	if (!chaincodeName) {
+		res.json(getErrorMessage('\'chaincodeName\''));
+		return;
+	}
+	if (!channelName) {
+		res.json(getErrorMessage('\'channelName\''));
+		return;
+	}
+	if (!fcn) {
+		res.json(getErrorMessage('\'fcn\''));
+		return;
+	}
+	if (!args) {
+		res.json(getErrorMessage('\'args\''));
+		return;
+	}
+	args = args.replace(/'/g, '"');
+	args = JSON.parse(args);
+	logger.debug(args);
+
+	let message = await query.queryChaincode(peer, channelName, chaincodeName, args, fcn, req.username, req.orgname);
+	res.send(message);
 });
