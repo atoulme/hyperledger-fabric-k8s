@@ -27,7 +27,8 @@ var queryChaincode = async function(peer, channelName, chaincodeName, fcn, usern
 		const network = await gateway.getNetwork(channelName);
 		logger.debug('Successfully got the fabric client for the organization "%s"', org_name);
 		const contract = network.getContract(chaincodeName);
-		let results = await contract.evaluateTransaction(fcn);
+		let results = await contract.evaluateTransaction(fcn).toString();
+		logger.debug('Results: ' + results);
 		return results;
 	} catch(error) {
 		logger.error('Failed to query due to error: ' + error.stack ? error.stack : error);
