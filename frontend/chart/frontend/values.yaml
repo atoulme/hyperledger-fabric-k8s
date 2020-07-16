@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   tag: frontend:latest
-  pullPolicy: Never
+  pullPolicy: IfNotPresent
 
 imagePullSecrets: []
 nameOverride: ""
