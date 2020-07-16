@@ -22,7 +22,7 @@ var path = require('path');
 var util = require('util');
 const yaml = require('js-yaml');
 var hfc = require('fabric-client');
-const { Gateway } = require('fabric-network');
+const { FileSystemWallet, Gateway } = require('fabric-network');
 
 hfc.setLogger(logger);
 

@@ -13,14 +13,11 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-const { FileSystemWallet, Gateway } = require('fabric-network');
+const { Gateway } = require('fabric-network');
 
 var util = require('util');
 var helper = require('./helper.js');
 var logger = helper.getLogger('Query');
-
-const wallet = new FileSystemWallet('./fabric-client-kv-acme');
-
 
 var queryChaincode = async function(peer, channelName, chaincodeName, fcn, username, org_name) {
 	let gateway = null;
