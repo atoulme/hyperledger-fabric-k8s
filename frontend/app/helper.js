@@ -20,9 +20,43 @@ logger.setLevel('DEBUG');
 
 var path = require('path');
 var util = require('util');
-
+const yaml = require('js-yaml');
 var hfc = require('fabric-client');
+const { Gateway } = require('fabric-network');
+
 hfc.setLogger(logger);
+
+const wallet = new FileSystemWallet('/gateway-wallet');
+
+async function getGatewayFor(userorg, username) {
+	logger.debug('getGatewayFor - ****** START %s %s', userorg, username);
+
+	// build a client context and load it with a connection profile
+	// lets only load the network settings and save the client for later
+	let gateway = new Gateway();
+	// define the identity to use
+	const identityLabel = 'admin';
+
+	// Load connection profile; will be used to locate a gateway
+	const connectionProfile = yaml.safeLoad(fs.readFileSync('/artifacts/network-config.yaml', 'utf8'));
+	const discoveryAsLocalhost = false;
+	const discoveryEnabled = true;
+	// Set connection options; use 'admin' identity from application wallet
+	const connectionOptions = {
+		discovery: {
+			asLocalhost: discoveryAsLocalhost,
+			enabled: discoveryEnabled,
+		},
+		identity: identityLabel,
+		wallet,
+	};
+
+	// Connect to gateway using application specified parameters
+	await gateway.connect(connectionProfile, connectionOptions);
+	console.log('Connected to Fabric gateway.');
+
+	return gateway;
+}
 
 async function getClientForOrg (userorg, username) {
 	logger.debug('getClientForOrg - ****** START %s %s', userorg, username)
@@ -111,3 +145,4 @@ var getLogger = function(moduleName) {
 exports.getClientForOrg = getClientForOrg;
 exports.getLogger = getLogger;
 exports.getRegisteredUser = getRegisteredUser;
+exports.getGatewayFor = getGatewayFor;

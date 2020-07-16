@@ -23,18 +23,10 @@ const wallet = new FileSystemWallet('./fabric-client-kv-acme');
 
 
 var queryChaincode = async function(peer, channelName, chaincodeName, fcn, username, org_name) {
-	let client = null;
 	let gateway = null;
 	try {
 		// first setup the client for this org
-		client = await helper.getClientForOrg(org_name, username);
-		gateway = new Gateway();
-		let connectionOptions = {
-			identity: username,
-			wallet: wallet,
-			discovery: { enabled:false, asLocalhost: true }
-		};
-		await gateway.connect(client, connectionOptions);
+		gateway = await helper.getGatewayFor(org_name, username);
 		const network = await gateway.getNetwork(channelName);
 		logger.debug('Successfully got the fabric client for the organization "%s"', org_name);
 		const contract = network.getContract(chaincodeName);
