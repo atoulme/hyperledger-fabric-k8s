@@ -1,0 +1,148 @@
+# https://fabric-sdk-node.github.io/release-1.4/tutorial-network-config.html
+name: "Network"
+version: "1.0"
+
+tlsEnabled: true
+useActualDomains: true
+
+network:
+  # used by init script to create genesis block and by peer-org-flow to parse consortiums
+  genesisProfile: SampleMultiNodeEtcdRaft
+  # used by init script to create genesis block 
+  systemChannelID: byfn-sys-channel
+
+  channels:
+    oil-orders:
+      orderers:
+        - orderer.example.com
+      peers:
+        peer0.clearinghouse.example.com:
+          endorsingPeer: true
+          chaincodeQuery: true
+          ledgerQuery: true
+          eventSource: true
+        peer0.manufacturer.example.com:
+          endorsingPeer: true
+          chaincodeQuery: true
+          ledgerQuery: true
+          eventSource: true
+    credit-letters:
+      orderers:
+        - orderer.example.com
+      peers:
+        peer0.clearinghouse.example.com:
+          endorsingPeer: true
+          chaincodeQuery: true
+          ledgerQuery: true
+          eventSource: true
+        peer0.manufacturer.example.com:
+          endorsingPeer: true
+          chaincodeQuery: true
+          ledgerQuery: true
+          eventSource: true
+    poc-bids:
+      orderers:
+        - orderer.example.com
+      peers:
+        peer0.clearinghouse.example.com:
+          endorsingPeer: true
+          chaincodeQuery: true
+          ledgerQuery: true
+          eventSource: true
+        peer0.manufacturer.example.com:
+          endorsingPeer: true
+          chaincodeQuery: true
+          ledgerQuery: true
+          eventSource: true
+    supply-info:
+      orderers:
+        - orderer.example.com
+      peers:
+        peer0.clearinghouse.example.com:
+          endorsingPeer: true
+          chaincodeQuery: true
+          ledgerQuery: true
+          eventSource: true
+        peer0.manufacturer.example.com:
+          endorsingPeer: true
+          chaincodeQuery: true
+          ledgerQuery: true
+          eventSource: true
+    plastic-buys:
+      orderers:
+        - orderer.example.com
+      peers:
+        peer0.clearinghouse.example.com:
+          endorsingPeer: true
+          chaincodeQuery: true
+          ledgerQuery: true
+          eventSource: true
+        peer0.manufacturer.example.com:
+          endorsingPeer: true
+          chaincodeQuery: true
+          ledgerQuery: true
+          eventSource: true
+    loan-payments:
+      orderers:
+        - orderer.example.com
+      peers:
+        peer0.clearinghouse.example.com:
+          endorsingPeer: true
+          chaincodeQuery: true
+          ledgerQuery: true
+          eventSource: true
+        peer0.manufacturer.example.com:
+          endorsingPeer: true
+          chaincodeQuery: true
+          ledgerQuery: true
+          eventSource: true
+
+  organizations:
+    TradeFloor:
+      mspid: ClearinghouseMSP
+      peers:
+        - peer0.clearinghouse.example.com
+
+    Acme:
+      mspid: ManufacturerMSP
+      peers:
+        - peer0.manufacturer.example.com
+
+  orderers:
+    orderer.example.com:
+      url: grpcs://orderer.example.com:7050
+      grpcOptions:
+        ssl-target-name-override: orderer.example.com
+        grpc-max-send-message-length: 4194304
+      tlsCACerts:
+        path: crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+
+  peers:
+    peer0.clearinghouse.example.com:
+      url: grpcs://peer0.clearinghouse.example.com:7051
+      grpcOptions:
+        ssl-target-name-override: peer0.clearinghouse.example.com
+        grpc.keepalive_time_ms: 600000
+      tlsCACerts:
+        path: crypto-config/peerOrganizations/clearinghouse.example.com/peers/peer0.clearinghouse.example.com/msp/tlscacerts/tlsca.clearinghouse.example.com-cert.pem
+
+    peer0.manufacturer.example.com:
+      url: grpcs://peer0.manufacturer.example.com:8051
+      grpcOptions:
+        ssl-target-name-override: peer0.manufacturer.example.com
+      tlsCACerts:
+        path: crypto-config/peerOrganizations/manufacturer.example.com/peers/peer0.manufacturer.example.com/msp/tlscacerts/tlsca.manufacturer.example.com-cert.pem
+
+  chaincodes:
+    - name: contractbid
+      # if defined, this will override the global chaincode.version value
+      version: "1.0" 
+      # chaincode will be installed to all peers in these organizations
+      orgs: [Clearinghouse, Manufacturer]
+      # at which channels are we instantiating/upgrading chaincode?
+      channels:
+      - name: oil-orders
+        # chaincode will be instantiated/upgraded using the first peer in the first organization
+        # chaincode will be invoked on all peers in these organizations
+        orgs: [Clearinghouse, Manufacturer]
+        policy: OR('ClearinghouseMSP.member','ManufacturerMSP.member')
