@@ -26,6 +26,11 @@ var queryChaincode = async function(peer, channelName, chaincodeName, fcn, usern
 		// first setup the client for this org
 		client = await helper.getClientForOrg(org_name, username);
 		gateway = new fabricNetwork.Gateway();
+		let connectionOptions = {
+			identity: username,
+			wallet: client.wallet,
+			discovery: { enabled:false, asLocalhost: true }
+		};
 		await gateway.connect(client);
 		const network = await gateway.getNetwork(channelName);
 		logger.debug('Successfully got the fabric client for the organization "%s"', org_name);
