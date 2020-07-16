@@ -168,7 +168,7 @@ public class BidContract implements ContractInterface {
     }
 
     @Transaction
-    public List<Bid> readAuctionBids(Context ctx, String auctionId) {
+    public Bid[] readAuctionBids(Context ctx, String auctionId) {
         CompositeKey key = ctx.getStub().createCompositeKey("bid", auctionId);
         List<Bid> bids = new ArrayList<>();
         Iterator<KeyValue> values = ctx.getStub().getStateByPartialCompositeKey(key).iterator();
@@ -176,11 +176,11 @@ public class BidContract implements ContractInterface {
             KeyValue kv = values.next();
             bids.add(Bid.fromJSONString(kv.getStringValue()));
         }
-        return bids;
+        return bids.toArray(new Bid[0]);
     }
 
     @Transaction()
-    public List<Auction> readAllActiveAuctions(Context ctx) {
+    public Auction[] readAllActiveAuctions(Context ctx) {
         CompositeKey key = ctx.getStub().createCompositeKey("auction", "active");
         List<Auction> auctions = new ArrayList<>();
         Iterator<KeyValue> values = ctx.getStub().getStateByPartialCompositeKey(key).iterator();
@@ -188,11 +188,11 @@ public class BidContract implements ContractInterface {
             KeyValue kv = values.next();
             auctions.add(Auction.fromJSONString(kv.getStringValue()));
         }
-        return auctions;
+        return auctions.toArray(new Auction[0]);
     }
 
     @Transaction()
-    public List<Auction> readAllInactiveAuctions(Context ctx) {
+    public Auction[] readAllInactiveAuctions(Context ctx) {
         CompositeKey key = ctx.getStub().createCompositeKey("auction", "inactive");
         List<Auction> auctions = new ArrayList<>();
         Iterator<KeyValue> values = ctx.getStub().getStateByPartialCompositeKey(key).iterator();
@@ -200,7 +200,7 @@ public class BidContract implements ContractInterface {
             KeyValue kv = values.next();
             auctions.add(Auction.fromJSONString(kv.getStringValue()));
         }
-        return auctions;
+        return auctions.toArray(new Auction[0]);
     }
 
 }
