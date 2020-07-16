@@ -13,11 +13,14 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-var fabricNetwork = require("fabric-network");
+const { FileSystemWallet, Gateway } = require('fabric-network');
 
 var util = require('util');
 var helper = require('./helper.js');
 var logger = helper.getLogger('Query');
+
+const wallet = new FileSystemWallet('/local_fabric_wallet');
+
 
 var queryChaincode = async function(peer, channelName, chaincodeName, fcn, username, org_name) {
 	let client = null;
@@ -25,13 +28,13 @@ var queryChaincode = async function(peer, channelName, chaincodeName, fcn, usern
 	try {
 		// first setup the client for this org
 		client = await helper.getClientForOrg(org_name, username);
-		gateway = new fabricNetwork.Gateway();
+		gateway = new Gateway();
 		let connectionOptions = {
 			identity: username,
-			wallet: client.wallet,
+			wallet: wallet,
 			discovery: { enabled:false, asLocalhost: true }
 		};
-		await gateway.connect(client);
+		await gateway.connect(client, connectionOptions);
 		const network = await gateway.getNetwork(channelName);
 		logger.debug('Successfully got the fabric client for the organization "%s"', org_name);
 		const contract = network.getContract(chaincodeName);
