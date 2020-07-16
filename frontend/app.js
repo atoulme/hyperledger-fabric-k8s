@@ -192,7 +192,6 @@ app.get('/channels/:channelName/chaincodes/:chaincodeName', async function(req, 
 	logger.debug('==================== QUERY BY CHAINCODE ==================');
 	var channelName = req.params.channelName;
 	var chaincodeName = req.params.chaincodeName;
-	let args = req.query.args;
 	let fcn = req.query.fcn;
 	let peer = req.query.peer;
 	var orgname = req.query.orgname;
@@ -215,14 +214,8 @@ app.get('/channels/:channelName/chaincodes/:chaincodeName', async function(req, 
 		res.json(getErrorMessage('\'fcn\''));
 		return;
 	}
-	if (!args) {
-		res.json(getErrorMessage('\'args\''));
-		return;
-	}
-	args = args.replace(/'/g, '"');
-	args = JSON.parse(args);
 	logger.debug(args);
 
-	let message = await query.queryChaincode(peer, channelName, chaincodeName, args, fcn, username, orgname);
+	let message = await query.queryChaincode(peer, channelName, chaincodeName, fcn, username, orgname);
 	res.send(message);
 });
