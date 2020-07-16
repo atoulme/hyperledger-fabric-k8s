@@ -42,7 +42,7 @@ const identity = {
 	type: 'X.509',
 };
 
-wallet.put(identityLabel, identity);
+wallet.import(identityLabel, identity);
 
 async function getGatewayFor(userorg, username) {
 	logger.debug('getGatewayFor - ****** START %s %s', userorg, username);
