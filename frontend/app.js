@@ -195,8 +195,8 @@ app.get('/channels/:channelName/chaincodes/:chaincodeName', async function(req, 
 	let args = req.query.args;
 	let fcn = req.query.fcn;
 	let peer = req.query.peer;
-	var orgname = req.params.orgname;
-	var username = req.params.username;
+	var orgname = req.query.orgname;
+	var username = req.query.username;
 
 	logger.debug('channelName : ' + channelName);
 	logger.debug('chaincodeName : ' + chaincodeName);
