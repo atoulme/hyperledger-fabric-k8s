@@ -5,9 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: frontend
-  version: latest
-  pullPolicy: IfNotPresent
+  tag: frontend:latest
+  pullPolicy: Never
 
 imagePullSecrets: []
 nameOverride: ""
