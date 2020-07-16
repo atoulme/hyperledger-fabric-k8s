@@ -22,29 +22,30 @@ var fs = require("fs");
 var util = require('util');
 const yaml = require('js-yaml');
 var hfc = require('fabric-client');
-const { FileSystemWallet, Gateway } = require('fabric-network');
+const { FileSystemWallet, Gateway, X509WalletMixin } = require('fabric-network');
 
 hfc.setLogger(logger);
 
 const wallet = new FileSystemWallet('/gateway-wallet');
+var walletInitialized = false;
+async function initWallet() {
+	if (walletInitialized) {
+		return;
+	}
+	// Identity to credentials to be stored in the wallet
+	const credPath =  '/artifacts/crypto-config/peerOrganizations/manufacturer.example.com/users/User1@manufacturer.example.com';
+	const cert = fs.readFileSync(path.join(credPath, '/msp/signcerts/User1@manufacturer.example.com-cert.pem')).toString();
+	const key = fs.readFileSync(path.join(credPath, '/msp/keystore/e7b6aac26e214155fa6faa90d7fb753c8ff6dd0f18cf740c577aa804237faabd_sk')).toString();
 
-// define the identity to use
-const cert = fs.readFileSync('/artifacts/crypto-config/peerOrganizations/manufacturer.example.com/users/User1@manufacturer.example.com/msp/admincerts/User1@manufacturer.example.com-cert.pem').toString();
-const key = fs.readFileSync('/artifacts/crypto-config/peerOrganizations/manufacturer.example.com/users/User1@manufacturer.example.com/msp/keystore/e7b6aac26e214155fa6faa90d7fb753c8ff6dd0f18cf740c577aa804237faabd_sk').toString();
+	const identityLabel = 'User1@manufacturer.example.com';
+	const identity = X509WalletMixin.createIdentity('ManufacturerMSP', cert, key);
 
-const identityLabel = 'User1@manufacturer.example.com';
-const identity = {
-	credentials: {
-		certificate: cert,
-		privateKey: key,
-	},
-	mspId: 'ManufacturerMSP',
-	type: 'X.509',
-};
-
-wallet.import(identityLabel, identity);
+	await wallet.import(identityLabel, identity);
+	walletInitialized = true;
+}
 
 async function getGatewayFor(userorg, username) {
+	await initWallet();
 	logger.debug('getGatewayFor - ****** START %s %s', userorg, username);
 
 	// build a client context and load it with a connection profile
@@ -55,6 +56,7 @@ async function getGatewayFor(userorg, username) {
 	const connectionProfile = yaml.safeLoad(fs.readFileSync('/artifacts/network-config.yaml', 'utf8'));
 	const discoveryAsLocalhost = false;
 	const discoveryEnabled = true;
+	const identityLabel = 'User1@manufacturer.example.com';
 	const connectionOptions = {
 		discovery: {
 			asLocalhost: discoveryAsLocalhost,
