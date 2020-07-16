@@ -29,8 +29,8 @@ hfc.setLogger(logger);
 const wallet = new FileSystemWallet('/gateway-wallet');
 
 // define the identity to use
-const cert = fs.readFileSync(path.join(credPath, '/artifacts/crypto-config/peerOrganizations/manufacturer.example.com/users/User1@manufacturer.example.com/msp/admincerts/User1@manufacturer.example.com-cert.pem')).toString();
-const key = fs.readFileSync(path.join(credPath, '/artifacts/crypto-config/peerOrganizations/manufacturer.example.com/users/User1@manufacturer.example.com/msp/keystore/e7b6aac26e214155fa6faa90d7fb753c8ff6dd0f18cf740c577aa804237faabd_sk')).toString();
+const cert = fs.readFileSync('/artifacts/crypto-config/peerOrganizations/manufacturer.example.com/users/User1@manufacturer.example.com/msp/admincerts/User1@manufacturer.example.com-cert.pem').toString();
+const key = fs.readFileSync('/artifacts/crypto-config/peerOrganizations/manufacturer.example.com/users/User1@manufacturer.example.com/msp/keystore/e7b6aac26e214155fa6faa90d7fb753c8ff6dd0f18cf740c577aa804237faabd_sk').toString();
 
 const identityLabel = 'User1@manufacturer.example.com';
 const identity = {
