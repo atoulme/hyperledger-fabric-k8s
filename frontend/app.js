@@ -33,7 +33,7 @@ const tracer = require('signalfx-tracing').init({
 	service: 'auction-app',
 	// Smart Agent or Gateway endpoint, also configurable via
 	// SIGNALFX_ENDPOINT_URL environment variable
-	url: 'http://signalfx-agent:9080/v2/trace', // http://localhost:9080/v1/trace by default
+	url: 'http://signalfx-agent:9080/v1/trace', // http://localhost:9080/v1/trace by default
 	// Optional environment tag
 	tags: {environment: 'hlf-k8s'}
 });
