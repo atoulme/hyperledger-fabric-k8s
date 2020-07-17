@@ -30,6 +30,7 @@ agentConfig:
   cluster: dev-cluster
 
   writer:
+    traceExportFormat: sapm
     signalFxEnabled: true
     splunk:
       enabled: true
