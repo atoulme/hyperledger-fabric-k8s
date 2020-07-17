@@ -29,9 +29,6 @@ var runTx = async function(channelName, chaincodeName, fcn, args) {
 		let results = await contract.submitTransaction(fcn, ...args);
 		logger.debug('Results: ' + results.toString());
 		return results.toString();
-	} catch(error) {
-		logger.error('Failed to query due to error: ' + error.stack ? error.stack : error);
-		return error.toString();
 	} finally {
 		if (gateway) {
 			gateway.disconnect();
