@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -105,10 +106,12 @@ public class BidContract implements ContractInterface {
     }
 
     @Transaction()
-    public void createBid(Context ctx, String bidId, Double value, String auctionId, String traceId) {
+    public String createBid(Context ctx, String bidId, Double value, String auctionId, String traceId) {
+        Logger logger = Logger.getLogger("createBid");
+        logger.info("About to create a bid");
         Span span = tracer.buildSpan("createBid").withTag("traceId", traceId).withTag("auctionId", auctionId).start();
         span.setTag("span.kind", "server");
-        System.out.println("START SPAN");
+        logger.fine("Created a span");
         try {
             boolean exists = myBidExists(ctx, auctionId, bidId);
             if (exists) {
@@ -125,12 +128,13 @@ public class BidContract implements ContractInterface {
             asset.setAuctionId(auctionId);
             CompositeKey key = ctx.getStub().createCompositeKey("bid", auctionId, bidId);
             ctx.getStub().putState(key.toString(), asset.toJSONString().getBytes(UTF_8));
-            System.out.println("NORMALLY DONE");
+            return "Created bid " + bidId;
         } catch (Throwable t) {
             span.setTag("error", "true");
-            System.out.println("FOO");
+            logger.fine("Caught an error");
+            throw t;
         } finally {
-            System.out.println("FINISH SPAN");
+            logger.fine("Finished creating bid");
             span.finish();
         }
     }
