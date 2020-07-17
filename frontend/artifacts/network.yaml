@@ -110,28 +110,86 @@ network:
 
   orderers:
     orderer.example.com:
-      url: grpcs://orderer.example.com:7050
+      url: grpcs://hlf-orderer--orderer--orderer:7050
+
+      # these are standard properties defined by the gRPC library
+      # they will be passed in as-is to gRPC client constructor
       grpcOptions:
         ssl-target-name-override: orderer.example.com
-        grpc-max-send-message-length: 4194304
+
       tlsCACerts:
-        path: crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+        path: /artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/ca.crt
+    orderer2.example.com:
+      url: grpcs://hlf-orderer--orderer--orderer2:7050
+
+      # these are standard properties defined by the gRPC library
+      # they will be passed in as-is to gRPC client constructor
+      grpcOptions:
+        ssl-target-name-override: orderer2.example.com
+
+      tlsCACerts:
+        path: /artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/ca.crt
+    orderer3.example.com:
+      url: grpcs://hlf-orderer--orderer--orderer3:7050
+
+      # these are standard properties defined by the gRPC library
+      # they will be passed in as-is to gRPC client constructor
+      grpcOptions:
+        ssl-target-name-override: orderer3.example.com
+
+      tlsCACerts:
+        path: /artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/ca.crt
+    orderer4.example.com:
+      url: grpcs://hlf-orderer--orderer--orderer4:7050
+
+      # these are standard properties defined by the gRPC library
+      # they will be passed in as-is to gRPC client constructor
+      grpcOptions:
+        ssl-target-name-override: orderer4.example.com
+
+      tlsCACerts:
+        path: /artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/ca.crt
+    orderer5.example.com:
+      url: grpcs://hlf-orderer--orderer--orderer5:7050
+
+      # these are standard properties defined by the gRPC library
+      # they will be passed in as-is to gRPC client constructor
+      grpcOptions:
+        ssl-target-name-override: orderer5.example.com
+
+      tlsCACerts:
+        path: /artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/ca.crt
 
   peers:
     peer0.clearinghouse.example.com:
-      url: grpcs://peer0.clearinghouse.example.com:7051
+      # this URL is used to send endorsement and query requests
+      url: grpcs://hlf-peer--clearinghouse--peer0:7051
+
       grpcOptions:
         ssl-target-name-override: peer0.clearinghouse.example.com
-        grpc.keepalive_time_ms: 600000
       tlsCACerts:
-        path: crypto-config/peerOrganizations/clearinghouse.example.com/peers/peer0.clearinghouse.example.com/msp/tlscacerts/tlsca.clearinghouse.example.com-cert.pem
+        path: /artifacts/crypto-config/peerOrganizations/clearinghouse.example.com/peers/peer0.clearinghouse.example.com/tls/ca.crt
+
+    peer1.clearinghouse.example.com:
+      url: grpcs://hlf-peer--clearinghouse--peer1:7051
+      grpcOptions:
+        ssl-target-name-override: peer1.clearinghouse.example.com
+      tlsCACerts:
+        path: /artifacts/crypto-config/peerOrganizations/clearinghouse.example.com/peers/peer1.clearinghouse.example.com/tls/ca.crt
 
     peer0.manufacturer.example.com:
-      url: grpcs://peer0.manufacturer.example.com:8051
+      url: grpcs://hlf-peer--manufacturer--peer0:7051
       grpcOptions:
         ssl-target-name-override: peer0.manufacturer.example.com
       tlsCACerts:
-        path: crypto-config/peerOrganizations/manufacturer.example.com/peers/peer0.manufacturer.example.com/msp/tlscacerts/tlsca.manufacturer.example.com-cert.pem
+        path: /artifacts/crypto-config/peerOrganizations/manufacturer.example.com/peers/peer0.manufacturer.example.com/tls/ca.crt
+
+    peer1.manufacturer.example.com:
+      url: grpcs://hlf-peer--manufacturer--peer1:7051
+      grpcOptions:
+        ssl-target-name-override: peer1.manufacturer.example.com
+      tlsCACerts:
+        path: /artifacts/crypto-config/peerOrganizations/manufacturer.example.com/peers/peer1.manufacturer.example.com/tls/ca.crt
 
   chaincodes:
     - name: contractbid
