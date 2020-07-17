@@ -50,17 +50,17 @@
             crossorigin="anonymous"></script>
     <script type="text/javascript">
         function generateAuction() {
-            $.get('/generateAuctionAndBids', (response) => {
+            $.get('/generateAuctionAndBids', (data) => {
                 $(".result").html(data);
             });
         }
         function startBidBot() {
-            $.get('/startBidBot', (response) => {
+            $.get('/startBidBot', (data) => {
                 $(".result").html(data);
             });
         }
         function stopBidBot() {
-            $.get('/stopBidBot', (response) => {
+            $.get('/stopBidBot', (data) => {
                 $("#result").html(data);
             });
         }

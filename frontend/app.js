@@ -220,23 +220,41 @@ function generateID() {
 	return Math.random().toString(36).substr(2);
 }
 
-async function generateAuctionAndBids(auctionName) {
-	logger.debug('==================== GENERATE AUCTION AND BIDS ==================');
+async function generateBid(auctionId, value) {
+	var chaincodeName = "splunk_cc";
+	var channelName = "poc-bids";
+	var fcn = "createBid";
+	const bidId = generateID();
+	var args = [bidId, value, auctionId, auctionId];
+	logger.debug('channelName  : ' + channelName);
+	logger.debug('chaincodeName : ' + chaincodeName);
+	logger.debug('fcn  : ' + fcn);
+	logger.debug('args  : ' + args);
+
+	let message = await runTx.runTx(channelName, chaincodeName, fcn, args);
+	return message;
+}
+
+async function generateAuction(auctionId, auctionName) {
 	var chaincodeName = "splunk_cc";
 	var channelName = "poc-bids";
 	var fcn = "createAuction";
-	const auctionId = generateID();
 	var args = [auctionId, auctionName];
 	logger.debug('channelName  : ' + channelName);
 	logger.debug('chaincodeName : ' + chaincodeName);
 	logger.debug('fcn  : ' + fcn);
 	logger.debug('args  : ' + args);
 
-	try {
-		let message = await runTx.runTx(channelName, chaincodeName, fcn, args);
-		return message;
-	} catch(ex) {
-		return {success: false, message: ex.message};
+	let message = await runTx.runTx(channelName, chaincodeName, fcn, args);
+	return message;
+}
+
+async function generateAuctionAndBids(auctionName) {
+	logger.debug('==================== GENERATE AUCTION AND BIDS ==================');
+	const auctionId = generateID();
+	generateAuction(auctionId, auctionName);
+	for (let i = 0; i < 100; i++) {
+		generateBid(auctionId, (10 * i).toString());
 	}
 }
 
