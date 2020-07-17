@@ -44,7 +44,7 @@ public class BidContract implements ContractInterface {
     private static io.opentracing.Tracer createTracer() {
         Map<String, String> env = System.getenv();
 
-        String ingestUrl = System.getProperty("ingestUrl", env.getOrDefault("ingestUrl", "http://sfxagent:9080/v1/trace"));
+        String ingestUrl = System.getProperty("ingestUrl", env.getOrDefault("ingestUrl", "http://signalfx-agent:9080/v1/trace"));
 
         // Build the sender that does the HTTP request containing spans to our ingest server.
         OkHttpSender.Builder senderBuilder = OkHttpSender.newBuilder()

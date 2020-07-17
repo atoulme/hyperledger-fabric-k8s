@@ -27,6 +27,16 @@ var expressJWT = require('express-jwt');
 var jwt = require('jsonwebtoken');
 var bearerToken = require('express-bearer-token');
 var cors = require('cors');
+const tracer = require('signalfx-tracing').init({
+	// Service name, also configurable via
+	// SIGNALFX_SERVICE_NAME environment variable
+	service: 'auction-app',
+	// Smart Agent or Gateway endpoint, also configurable via
+	// SIGNALFX_ENDPOINT_URL environment variable
+	url: 'http://signalfx-agent:9080/v1/trace', // http://localhost:9080/v1/trace by default
+	// Optional environment tag
+	tags: {environment: 'hlf-k8s'}
+});
 
 require('./config.js');
 var hfc = require('fabric-client');
@@ -220,11 +230,13 @@ function generateID() {
 	return Math.random().toString(36).substr(2);
 }
 
-async function generateBid(auctionId, value) {
+async function generateBid(auctionId, value, parentSpan) {
+
 	var chaincodeName = "splunk_cc";
 	var channelName = "poc-bids";
 	var fcn = "createBid";
 	const bidId = generateID();
+	const span = tracer.startSpan(auctionId + "-bid-" + bidId, {childOf: parentSpan});
 	var args = [bidId, value, auctionId, auctionId];
 	logger.debug('channelName  : ' + channelName);
 	logger.debug('chaincodeName : ' + chaincodeName);
@@ -232,6 +244,7 @@ async function generateBid(auctionId, value) {
 	logger.debug('args  : ' + args);
 
 	let message = await runTx.runTx(channelName, chaincodeName, fcn, args);
+	span.finish();
 	return message;
 }
 
@@ -250,12 +263,15 @@ async function generateAuction(auctionId, auctionName) {
 }
 
 async function generateAuctionAndBids(auctionName) {
+	const span = tracer.startSpan(auctionName, {tags: {"environment": "hyperledger-demo"}});
 	logger.debug('==================== GENERATE AUCTION AND BIDS ==================');
+	var client = new signalfx.Ingest(null, {ingestEndpoint: ''});
 	const auctionId = generateID();
 	generateAuction(auctionId, auctionName);
 	for (let i = 0; i < 100; i++) {
-		generateBid(auctionId, (10 * i).toString());
+		generateBid(auctionId, (10 * i).toString(), span);
 	}
+	span.finish();
 }
 
 function sleep(ms) {
