@@ -54,14 +54,10 @@ async function getGateway() {
 
 	// Load connection profile; will be used to locate a gateway
 	const connectionProfile = yaml.safeLoad(fs.readFileSync('/artifacts/network-config.yaml', 'utf8'));
-	const discoveryAsLocalhost = false;
-	const discoveryEnabled = true;
+
 	const identityLabel = 'User1@manufacturer.example.com';
 	const connectionOptions = {
-		discovery: {
-			asLocalhost: discoveryAsLocalhost,
-			enabled: discoveryEnabled,
-		},
+		discovery: { enabled:false, asLocalhost: true },
 		identity: identityLabel,
 		wallet,
 	};

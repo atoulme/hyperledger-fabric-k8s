@@ -19,14 +19,14 @@ var util = require('util');
 var helper = require('./helper.js');
 var logger = helper.getLogger('Query');
 
-var runTx = async function(channelName, chaincodeName, fcn) {
+var runTx = async function(channelName, chaincodeName, fcn, args) {
 	let gateway = null;
 	try {
 		// first setup the client for this org
 		gateway = await helper.getGateway();
 		const network = await gateway.getNetwork(channelName);
 		const contract = network.getContract(chaincodeName);
-		let results = await contract.submitTransaction(fcn);
+		let results = await contract.submitTransaction(fcn, args);
 		logger.debug('Results: ' + results.toString());
 		return results.toString();
 	} catch(error) {
