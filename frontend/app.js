@@ -42,7 +42,6 @@ require('./config.js');
 var hfc = require('fabric-client');
 
 var helper = require('./app/helper.js');
-var invoke = require('./app/invoke-transaction.js');
 var runTx = require('./app/run-tx.js');
 var query = require('./app/query.js');
 var host = process.env.HOST || hfc.getConfigSetting('host');
@@ -158,47 +157,7 @@ app.post('/users', async function(req, res) {
 
 });
 
-
-// Invoke transaction on chaincode on target peers
-app.post('/channels/:channelName/chaincodes/:chaincodeName/:orgname/:username', async function(req, res) {
-	logger.debug('==================== INVOKE ON CHAINCODE ==================');
-	var peers = req.body.peers;
-	var chaincodeName = req.params.chaincodeName;
-	var channelName = req.params.channelName;
-	var orgname = req.params.orgname;
-	var username = req.params.username;
-	var fcn = req.body.fcn;
-	var args = req.body.args;
-	logger.debug('channelName  : ' + channelName);
-	logger.debug('chaincodeName : ' + chaincodeName);
-	logger.debug('fcn  : ' + fcn);
-	logger.debug('args  : ' + args);
-	if (!chaincodeName) {
-		res.json(getErrorMessage('\'chaincodeName\''));
-		return;
-	}
-	if (!channelName) {
-		res.json(getErrorMessage('\'channelName\''));
-		return;
-	}
-	if (!fcn) {
-		res.json(getErrorMessage('\'fcn\''));
-		return;
-	}
-	if (!args) {
-		res.json(getErrorMessage('\'args\''));
-		return;
-	}
-
-	try {
-		let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, fcn, args, username, orgname);
-		res.send(message);
-	} catch(ex) {
-		res.json({success: false, message: ex.message});
-	}
-});
-
-// Query on chaincode on target peers
+// Query on chaincode
 app.get('/channels/:channelName/chaincodes/:chaincodeName', async function(req, res) {
 	logger.debug('==================== QUERY BY CHAINCODE ==================');
 	var channelName = req.params.channelName;
