@@ -26,7 +26,7 @@ var runTx = async function(channelName, chaincodeName, fcn, args) {
 		gateway = await helper.getGateway();
 		const network = await gateway.getNetwork(channelName);
 		const contract = network.getContract(chaincodeName);
-		let results = await contract.submitTransaction(fcn, args);
+		let results = await contract.submitTransaction(fcn, ...args);
 		logger.debug('Results: ' + results.toString());
 		return results.toString();
 	} catch(error) {
