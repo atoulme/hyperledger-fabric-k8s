@@ -265,7 +265,6 @@ async function generateAuction(auctionId, auctionName) {
 async function generateAuctionAndBids(auctionName) {
 	const span = tracer.startSpan(auctionName, {tags: {"environment": "hyperledger-demo"}});
 	logger.debug('==================== GENERATE AUCTION AND BIDS ==================');
-	var client = new signalfx.Ingest(null, {ingestEndpoint: ''});
 	const auctionId = generateID();
 	generateAuction(auctionId, auctionName);
 	for (let i = 0; i < 100; i++) {
