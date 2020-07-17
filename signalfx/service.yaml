@@ -3,11 +3,9 @@ kind: Service
 metadata:
   name: signalfx-agent
 spec:
-  type: NodePort
   ports:
     - port: 9080
-      targetPort: http
+      targetPort: 9080
       protocol: TCP
-      name: http
   selector:
     app: signalfx-agent

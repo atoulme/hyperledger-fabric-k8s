@@ -31,3 +31,7 @@ monitors:
     metricPath: '/federate?match[]=%7Bendpoint%3D%22operations%22%7D'
     extraDimensions:
       metric_source: prometheus
+  - type: trace-forwarder
+    listenAddress: 0.0.0.0:9080
+    extraSpanTags:
+      environment: hyperledger-demo
