@@ -44,7 +44,7 @@ public class BidContract implements ContractInterface {
     private static io.opentracing.Tracer createTracer() {
         Map<String, String> env = System.getenv();
 
-        String ingestUrl = System.getProperty("ingestUrl", env.getOrDefault("ingestUrl", "http://0.0.0.0:9080/v2/trace"));
+        String ingestUrl = System.getProperty("ingestUrl", env.getOrDefault("ingestUrl", "http://0.0.0.0:9080/v1/trace"));
 
         // Build the sender that does the HTTP request containing spans to our ingest server.
         OkHttpSender.Builder senderBuilder = OkHttpSender.newBuilder()
@@ -108,6 +108,7 @@ public class BidContract implements ContractInterface {
     public void createBid(Context ctx, String bidId, Double value, String auctionId, String traceId) {
         Span span = tracer.buildSpan("createBid").withTag("traceId", traceId).withTag("auctionId", auctionId).start();
         span.setTag("span.kind", "server");
+        System.out.println("START SPAN");
         try {
             boolean exists = myBidExists(ctx, auctionId, bidId);
             if (exists) {
@@ -124,9 +125,12 @@ public class BidContract implements ContractInterface {
             asset.setAuctionId(auctionId);
             CompositeKey key = ctx.getStub().createCompositeKey("bid", auctionId, bidId);
             ctx.getStub().putState(key.toString(), asset.toJSONString().getBytes(UTF_8));
+            System.out.println("NORMALLY DONE");
         } catch (Throwable t) {
             span.setTag("error", "true");
+            System.out.println("FOO");
         } finally {
+            System.out.println("FINISH SPAN");
             span.finish();
         }
     }
