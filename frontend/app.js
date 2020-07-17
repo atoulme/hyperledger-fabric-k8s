@@ -236,7 +236,7 @@ async function generateBid(auctionId, value, parentSpan) {
 	var channelName = "poc-bids";
 	var fcn = "createBid";
 	const bidId = generateID();
-	const span = tracer.startSpan(auctionId + "-bid-" + bidId, {childOf: parentSpan});
+	const span = tracer.startSpan(auctionId + "-bid-" + bidId, {childOf: parentSpan, tags : {"span.kind": "server"}});
 	var args = [bidId, value, auctionId, auctionId];
 	logger.debug('channelName  : ' + channelName);
 	logger.debug('chaincodeName : ' + chaincodeName);
@@ -263,7 +263,7 @@ async function generateAuction(auctionId, auctionName) {
 }
 
 async function generateAuctionAndBids(auctionName) {
-	const span = tracer.startSpan(auctionName, {tags: {"environment": "hyperledger-demo"}});
+	const span = tracer.startSpan(auctionName, {tags: {"environment": "hyperledger-demo", "span.kind": "server"}});
 	logger.debug('==================== GENERATE AUCTION AND BIDS ==================');
 	const auctionId = generateID();
 	generateAuction(auctionId, auctionName);
