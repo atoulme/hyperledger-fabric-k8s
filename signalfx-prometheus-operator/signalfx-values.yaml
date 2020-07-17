@@ -2,11 +2,11 @@
 # development K8s cluster with a Splunk cluster. You should change the imageTag
 # to whatever tag you are using for development.
 
-splunkUrl: https://splunk-splunk-kube:8088/services/collector
-splunkToken: 12345678-ABCD-EFGH-IJKL-123456789012
-splunkSource: sfx
-splunkIndex: sfx
-splunkSkipTLSVerify: true
+#splunkUrl: https://splunk-splunk-kube:8088/services/collector
+#splunkToken: 12345678-ABCD-EFGH-IJKL-123456789012
+#splunkSource: sfx
+#splunkIndex: sfx
+#splunkSkipTLSVerify: true
 
 clusterName: dev-cluster
 
