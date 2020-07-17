@@ -79,8 +79,9 @@ public class BidContract implements ContractInterface {
     }
 
     @Transaction()
-    public boolean myAuctionExists(Context ctx, String myAssetId) {
-        byte[] buffer = ctx.getStub().getState(myAssetId);
+    public boolean myAuctionExists(Context ctx, String auctionId) {
+        CompositeKey key = ctx.getStub().createCompositeKey("auction", "active", auctionId);
+        byte[] buffer = ctx.getStub().getState(key.toString());
         return (buffer != null && buffer.length > 0);
     }
 
