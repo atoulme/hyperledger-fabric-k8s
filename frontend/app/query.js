@@ -25,7 +25,6 @@ var queryChaincode = async function(channelName, chaincodeName, fcn) {
 		// first setup the client for this org
 		gateway = await helper.getGateway();
 		const network = await gateway.getNetwork(channelName);
-		logger.debug('Successfully got the fabric client for the organization "%s"', org_name);
 		const contract = network.getContract(chaincodeName);
 		let results = await contract.evaluateTransaction(fcn);
 		logger.debug('Results: ' + results.toString());
