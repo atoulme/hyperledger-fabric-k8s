@@ -253,7 +253,7 @@ async function scheduleAuctionAndBids(auctionBaseName, counter) {
 }
 
 app.get('/generateAuctionAndBids', async function(req, res) {
-    const result = await generateAuctionAndBids();
+    const result = await generateAuctionAndBids("sample");
     res.send(result);
 });
 
