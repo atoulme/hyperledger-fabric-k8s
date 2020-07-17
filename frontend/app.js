@@ -237,15 +237,21 @@ async function generateBid(auctionId, value, parentSpan) {
 	var fcn = "createBid";
 	const bidId = generateID();
 	const span = tracer.startSpan("createBid", {childOf: parentSpan, tags : {"span.kind": "server", "bidId": bidId, "auctionId": auctionId}});
-	var args = [bidId, value, auctionId, auctionId];
-	logger.debug('channelName  : ' + channelName);
-	logger.debug('chaincodeName : ' + chaincodeName);
-	logger.debug('fcn  : ' + fcn);
-	logger.debug('args  : ' + args);
+	try {
+		var args = [bidId, value, auctionId, auctionId];
+		logger.debug('channelName  : ' + channelName);
+		logger.debug('chaincodeName : ' + chaincodeName);
+		logger.debug('fcn  : ' + fcn);
+		logger.debug('args  : ' + args);
 
-	let message = await runTx.runTx(channelName, chaincodeName, fcn, args);
-	span.finish();
-	return message;
+		let message = await runTx.runTx(channelName, chaincodeName, fcn, args);
+		return message;
+	} catch(e) {
+		span.setTag("error", "true");
+		throw e;
+	} finally {
+		span.finish();
+	}
 }
 
 async function generateAuction(auctionId, auctionName) {
