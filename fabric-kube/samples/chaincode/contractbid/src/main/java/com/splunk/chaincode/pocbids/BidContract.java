@@ -93,7 +93,7 @@ public class BidContract implements ContractInterface {
     }
 
     @Transaction()
-    public void createAuction(Context ctx, String auctionId, String name) {
+    public String createAuction(Context ctx, String auctionId, String name) {
         boolean exists = myAuctionExists(ctx, auctionId);
         if (exists) {
             throw new RuntimeException("The bid " + auctionId + " already exists");
@@ -104,6 +104,7 @@ public class BidContract implements ContractInterface {
         asset.setActive(true);
         CompositeKey key = ctx.getStub().createCompositeKey("auction", "active", auctionId);
         ctx.getStub().putState(key.toString(), asset.toJSONString().getBytes(UTF_8));
+        return "Created auction " + auctionId;
     }
 
     @Transaction()
@@ -118,10 +119,10 @@ public class BidContract implements ContractInterface {
             if (exists) {
                 throw new RuntimeException("The bid " + bidId + " already exists");
             }
-            boolean auctionExists = myAuctionExists(ctx, auctionId);
-            if (!auctionExists) {
-                throw new RuntimeException("The auction " + auctionId + " doesn't exist");
-            }
+//            boolean auctionExists = myAuctionExists(ctx, auctionId);
+//            if (!auctionExists) {
+//                throw new RuntimeException("The auction " + auctionId + " doesn't exist");
+//            }
             Bid asset = new Bid();
             asset.setValue(value);
             asset.setWinner(false);
