@@ -111,7 +111,7 @@ public class BidContract implements ContractInterface {
     public String createBid(Context ctx, String bidId, Double value, String auctionId, String traceId) {
         Logger logger = Logger.getLogger("createBid");
         logger.info("About to create a bid");
-        Span span = tracer.buildSpan("createBid").withTag("traceId", traceId).withTag("auctionId", auctionId).start();
+        Span span = tracer.buildSpan("createBid").withTag("TraceId", traceId).withTag("auctionId", auctionId).start();
         span.setTag("span.kind", "server");
         logger.fine("Created a span");
         try {
