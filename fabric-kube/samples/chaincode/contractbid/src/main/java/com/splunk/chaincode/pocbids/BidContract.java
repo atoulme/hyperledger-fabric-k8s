@@ -1,9 +1,12 @@
 package com.splunk.chaincode.pocbids;
 
+import io.jaegertracing.internal.JaegerSpanContext;
 import io.jaegertracing.internal.samplers.ConstSampler;
 import io.jaegertracing.zipkin.ZipkinV2Reporter;
 import io.opentracing.Span;
+import io.opentracing.SpanContext;
 import io.opentracing.Tracer;
+import io.opentracing.noop.NoopSpanBuilder;
 import io.opentracing.util.GlobalTracer;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.contract.ContractInterface;
@@ -108,10 +111,11 @@ public class BidContract implements ContractInterface {
     }
 
     @Transaction()
-    public String createBid(Context ctx, String bidId, Double value, String auctionId, String traceId) {
+    public String createBid(Context ctx, String bidId, Double value, String auctionId, String spanId, String traceId) {
         Logger logger = Logger.getLogger("createBid");
         logger.info("About to create a bid");
-        Span span = tracer.buildSpan("createBid").withTag("TraceId", traceId).withTag("auctionId", auctionId).start();
+        JaegerSpanContext parentSpanContext = new JaegerSpanContext(Long.parseLong(traceId, 16), Long.parseLong(spanId, 16), 0L, (byte) 0);
+        Span span = tracer.buildSpan("createBid").asChildOf(parentSpanContext).withTag("TraceId", traceId).withTag("bidId", bidId).withTag("auctionId", auctionId).start();
         span.setTag("span.kind", "server");
         logger.fine("Created a span");
         try {

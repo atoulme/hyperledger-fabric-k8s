@@ -202,7 +202,7 @@ async function generateBid(auctionId, value, parentSpan) {
         tags: {"span.kind": "server", "bidId": bidId, "auctionId": auctionId, "TraceId": traceId}
     });
     try {
-        var args = [bidId, value, auctionId, traceId];
+        var args = [bidId, value, auctionId, span.context().toSpanId(), span.context().toTraceId()];
         logger.debug('channelName  : ' + channelName);
         logger.debug('chaincodeName : ' + chaincodeName);
         logger.debug('fcn  : ' + fcn);
