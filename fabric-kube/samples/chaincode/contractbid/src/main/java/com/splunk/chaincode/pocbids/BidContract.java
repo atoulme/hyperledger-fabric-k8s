@@ -115,7 +115,7 @@ public class BidContract implements ContractInterface {
         Logger logger = Logger.getLogger("createBid");
         logger.info("About to create a bid");
         JaegerSpanContext parentSpanContext = new JaegerSpanContext(Long.parseLong(traceId), Long.parseLong(spanId), 0L, (byte) 0x01);
-        Span span = tracer.buildSpan("createBid").asChildOf(parentSpanContext).withTag("TraceId", traceId).withTag("bidId", bidId).withTag("auctionId", auctionId).start();
+        Span span = tracer.buildSpan("createBid").asChildOf(parentSpanContext).withTag("TraceId", traceId).withTag("bidId", bidId).withTag("auctionId", auctionId).withTag("value", value).start();
         span.setTag("span.kind", "server");
         logger.fine("Created a span");
         try {
